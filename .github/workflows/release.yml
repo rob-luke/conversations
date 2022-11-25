@@ -15,6 +15,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install Hatch
+      run: pip install --upgrade hatch
+
     - name: Python Semantic Release
       uses: python-semantic-release/python-semantic-release@master
       with:
