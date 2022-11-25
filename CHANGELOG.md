@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2022-11-25)
+### Feature
+* Improve commit title for releases ([`78965c3`](https://github.com/rob-luke/conversations/commit/78965c30d8417bff645d237d658638a8e063351b))
+
 ## v0.8.0 (2022-11-25)
 ### Feature
 * What happens if we have a longer message ([`77a2cce`](https://github.com/rob-luke/conversations/commit/77a2cce16a1681568eedd1b974cc99ef8a1de808))
