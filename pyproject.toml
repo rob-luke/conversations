@@ -58,4 +58,7 @@ exclude_lines = [
 
 [tool.semantic_release]
 version_variable = "conversations/__about__.py:__version__"
-version_source = "commit"
+version_source = "tag"
+tag_commit = true
+branch = "main"
+commit_parser = "semantic_release.history.angular_parser"
