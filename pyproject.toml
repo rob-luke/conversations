@@ -62,3 +62,4 @@ version_source = "tag"
 tag_commit = true
 branch = "main"
 commit_parser = "semantic_release.history.angular_parser"
+build_command="hatch build"
