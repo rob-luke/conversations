@@ -33,6 +33,7 @@ path = "conversations/__about__.py"
 dependencies = [
   "pytest",
   "pytest-cov",
+  "python-semantic-release",
 ]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conversations --cov=tests {args}"
@@ -54,3 +55,7 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.semantic_release]
+version_variable = "conversations/__about__.py:__version__"
+version_source = "commit"
