@@ -64,3 +64,5 @@ branch = "main"
 commit_parser = "semantic_release.history.angular_parser"
 build_command="hatch build"
 commit_version_number=true
+commit_subject="chore: release {version}"
+
