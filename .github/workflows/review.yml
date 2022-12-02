@@ -4,7 +4,6 @@ on:
 name: Suggestions
 
 jobs:
-  shell:
 
   black:
     name: Black formatter
