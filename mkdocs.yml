@@ -4,6 +4,10 @@ site_url: https://example.com/
 theme:
   name: "material"
 
+nav:
+    - Home: index.md
+    - API: api.md
+
 plugins:
 - search
 - mkdocstrings:
