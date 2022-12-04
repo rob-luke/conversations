@@ -1,4 +1,5 @@
 # From https://squidfunk.github.io/mkdocs-material/publishing-your-site/#with-github-actions
+# and then modified to use hatch
 name: deploy docs
 
 on:
@@ -17,5 +18,4 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
+      - run: hatch run mkdocs gh-deploy --force
