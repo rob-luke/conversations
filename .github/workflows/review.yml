@@ -1,26 +1,25 @@
-on:
-  pull_request:
+name: black
+on: [pull_request]
 
-name: Suggestions
+ jobs:
 
-jobs:
-  shell:
+   suggestions:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v2
+       - name: Check files using the black formatter
+         uses: rickstaa/action-black@v1
+         id: action_black
+         with:
+           black_args: "."
+       - name: Annotate diff changes using reviewdog
+         if: steps.action_black.outputs.is_formatted == 'true'
+         uses: reviewdog/action-suggester@v1
+         with:
+           tool_name: blackfmt
 
-  black:
-    name: Black formatter
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: false
-
-      - name: Check files using the black formatter
-        uses: rickstaa/action-black@v1
-        id: action_black
-        with:
-          black_args: "."
-
-      - name: suggester / black
-        uses: reviewdog/action-suggester@v1
-        with:
-          tool_name: black
+   checks:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v2
+       - uses: psf/black@stable
