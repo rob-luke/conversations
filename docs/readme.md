@@ -5,6 +5,6 @@ Rich analysis of conversations.
 
 # Reference
 
-::: conversations.__about__
+::: conversations.transcribe
     :docstring:
     :members:
