@@ -1,0 +1,13 @@
+site_name: MkLorum
+site_url: https://example.com/
+
+theme:
+  name: "material"
+
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          docstring_style: numpy

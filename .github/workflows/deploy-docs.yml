@@ -1,0 +1,21 @@
+# From https://squidfunk.github.io/mkdocs-material/publishing-your-site/#with-github-actions
+# and then modified to use hatch
+name: deploy docs
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: hatch run mkdocs gh-deploy --force
