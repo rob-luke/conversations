@@ -32,7 +32,7 @@ path = "conversations/__about__.py"
 [tool.hatch.envs.default]
 dependencies = [
   "mkdocs",
-  "mkdocstrings",
+  "mkdocstrings[python]",
   "mkdocs-material",
   "pytest",
   "pytest-cov",
