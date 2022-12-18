@@ -19,7 +19,7 @@ def test_report_without_audiofile():
     html_report = report.generate(transcript=transcript)
     assert isinstance(html_report, dominate.document)
 
-    with open('tests/output/test_wo_audio.html', 'w') as f:
+    with open("tests/output/test_wo_audio.html", "w") as f:
         f.write(html_report.render())
 
 
@@ -28,6 +28,5 @@ def test_report_with_audiofile():
     html_report = report.generate(transcript=transcript, audio_file=audio_file)
     assert isinstance(html_report, dominate.document)
 
-    with open('tests/output/test_w_audio.html', 'w') as f:
+    with open("tests/output/test_w_audio.html", "w") as f:
         f.write(html_report.render())
-
