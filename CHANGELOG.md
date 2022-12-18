@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2022-12-18)
+### Feature
+* Add transcription using whisper ([`a9ede7c`](https://github.com/rob-luke/conversations/commit/a9ede7c7b687a592f922475239892d4715005066))
+
+### Documentation
+* Use mkdocs for documentation ([`d2b3b0a`](https://github.com/rob-luke/conversations/commit/d2b3b0aa0e7bc77d2e65c8c0827ebf69b5e29c51))
+
 ## v0.9.0 (2022-11-25)
 ### Feature
 * Improve commit title for releases ([`78965c3`](https://github.com/rob-luke/conversations/commit/78965c30d8417bff645d237d658638a8e063351b))
