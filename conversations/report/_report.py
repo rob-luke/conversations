@@ -1,4 +1,5 @@
 import pathlib
+import numpy as np
 import dominate
 
 
@@ -48,12 +49,20 @@ def generate(transcript: dict, audio_file: pathlib.PosixPath | None = None):
                     start = seg["start"]
                     stop = seg["end"]
 
-                    dominate.tags.input_(
-                        value=f"{start:.0f} - {stop:.0f} : {seg['text']}",
-                        cls="pl-8",
-                        type="button",
-                        onclick=f"play({start})",
-                    )
-                    dominate.tags.p()
+                    with dominate.tags.p(cls="ml-8 mr-8 m-1 border"):
+
+                        dominate.tags.input_(
+                            value=f"{seconds_to_formatted(start)} - {seconds_to_formatted(stop)} : {seg['text']}",
+                            cls="m-1",
+                            type="button",
+                            onclick=f"play({start})",
+                        )
 
     return doc
+
+
+def seconds_to_formatted(seconds):
+    res = np.divmod(seconds, 60)
+    min = res[0]
+    sec = round(res[1])
+    return f"{int(min):02}:{int(sec):02}"
