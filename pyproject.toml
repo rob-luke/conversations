@@ -34,6 +34,7 @@ dependencies = [
   "mkdocs",
   "mkdocstrings[python]",
   "mkdocs-material",
+  "pooch",
   "pytest",
   "pytest-cov",
   "python-semantic-release",
