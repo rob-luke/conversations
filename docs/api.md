@@ -1,6 +1,8 @@
 # Application Programming Interface
 
-## Transcription
+## Low-Level Interface
+
+### Transcription
 
 ::: conversations.transcribe.whisper.process
     handler: python
@@ -8,13 +10,14 @@
       show_root_heading: true
       show_source: false
       show_root_full_path: false
+      heading_level: 4
 
 
-## Diarisation
+### Diarisation
 
 Coming soon.
 
 
-## Report
+### Report
 
 Coming soon.
