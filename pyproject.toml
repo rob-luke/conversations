@@ -34,9 +34,11 @@ dependencies = [
   "mkdocs",
   "mkdocstrings[python]",
   "mkdocs-material",
+  "pooch",
   "pytest",
   "pytest-cov",
   "python-semantic-release",
+  "whisper @ https://github.com/openai/whisper/archive/refs/heads/main.zip",
 ]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conversations --cov=tests {args}"
