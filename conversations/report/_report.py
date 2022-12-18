@@ -10,7 +10,21 @@ audio.play();
 
 
 def generate(transcript: dict, audio_file: pathlib.PosixPath | None = None):
-    """Create html page from Whisper transcript."""
+    """Create html page from Whisper transcript.
+
+    Parameters
+    ----------
+    transcript : dict
+        Transcript from transcribe module.
+    audio_file : PosixPath | None
+        Path to audio file. If provided, audio will be embedded in the
+        report and timestamps will link to audio times.
+
+    Returns
+    -------
+    report : dominate.document
+        Conversation report as a dominate document.
+    """
 
     doc = dominate.document(title="Conversation")
 
@@ -29,7 +43,7 @@ def generate(transcript: dict, audio_file: pathlib.PosixPath | None = None):
                 dominate.tags.script(test)
 
             with dominate.tags.div(id="conversation", cls="pt-4"):
-                for seg in transcript["segments"][:60]:
+                for seg in transcript["segments"]:
 
                     start = seg["start"]
                     stop = seg["end"]
