@@ -20,4 +20,10 @@ Coming soon.
 
 ### Report
 
-Coming soon.
+::: conversations.report.generate
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: false
+      heading_level: 4

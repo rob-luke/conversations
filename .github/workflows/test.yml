@@ -40,3 +40,9 @@ jobs:
 
     - name: Run tests
       run: hatch run cov
+
+    - name: Archive test output
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-reports
+        path: tests/output/
