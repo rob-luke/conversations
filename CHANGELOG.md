@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.11.0 (2022-12-18)
+### Feature
+* Generate reports ([`fd5ea4c`](https://github.com/rob-luke/conversations/commit/fd5ea4c802d79cc4970afdb597052a1a24e99477))
+
 ## v0.10.0 (2022-12-18)
 ### Feature
 * Add transcription using whisper ([`a9ede7c`](https://github.com/rob-luke/conversations/commit/a9ede7c7b687a592f922475239892d4715005066))
