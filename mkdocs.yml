@@ -1,5 +1,5 @@
 site_name: Conversations
-site_url: https://example.com/
+site_url: https://rob-luke.github.io/conversations/
 
 theme:
   name: "material"
@@ -8,6 +8,7 @@ nav:
     - Home: index.md
     - API: api.md
     - Contributing: contributing.md
+    - Changelog: changelog.md
 
 plugins:
 - search
