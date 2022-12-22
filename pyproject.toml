@@ -35,6 +35,7 @@ dependencies = [
   "mkdocs",
   "mkdocstrings[python]",
   "mkdocs-material",
+  "toml",
   "pooch",
   "pydocstyle",
   "pytest",
