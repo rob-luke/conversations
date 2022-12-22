@@ -35,15 +35,19 @@ dependencies = [
   "mkdocs",
   "mkdocstrings[python]",
   "mkdocs-material",
+  "toml",
   "pooch",
+  "pydocstyle",
   "pytest",
   "pytest-cov",
   "python-semantic-release",
   "whisper @ https://github.com/openai/whisper/archive/refs/heads/main.zip",
 ]
+
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conversations --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
+lint = "pydocstyle conversations"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["310"]
@@ -72,3 +76,5 @@ build_command="hatch build"
 commit_version_number=true
 commit_subject="chore: release {version}"
 
+[pydocstyle]
+convention = "numpy"

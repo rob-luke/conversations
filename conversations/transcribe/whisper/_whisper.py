@@ -18,7 +18,6 @@ def process(audio_file: Path, model_name: str = "base.en") -> dict:
     transcript : dict
         Dictionary containing the audio transcript in whisper format.
     """
-
     model = whisper.load_model(model_name, device="cpu")
     audio = whisper.load_audio(str(audio_file))
     result = model.transcribe(audio)
