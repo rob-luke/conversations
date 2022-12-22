@@ -36,6 +36,7 @@ dependencies = [
   "mkdocstrings[python]",
   "mkdocs-material",
   "toml",
+  "mypy",
   "pooch",
   "pydocstyle",
   "pytest",
@@ -48,6 +49,7 @@ dependencies = [
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conversations --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 lint = "pydocstyle conversations"
+lint-types = "mypy conversations"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["310"]
@@ -78,3 +80,10 @@ commit_subject="chore: release {version}"
 
 [pydocstyle]
 convention = "numpy"
+
+[[tool.mypy.overrides]]
+module = [
+    "whisper",
+    "dominate"
+]
+ignore_missing_imports = true
