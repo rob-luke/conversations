@@ -17,7 +17,6 @@ def process(audio_file: Path, num_speakers: int = 2) -> list[dict]:
     segments : list[dict]
         List containing the segments as dictionaries.
     """
-
     diar = diarizer.Diarizer(
         embed_model="xvec",  # 'xvec' and 'ecapa' supported
         cluster_method="sc",  # 'ahc' and 'sc' supported
