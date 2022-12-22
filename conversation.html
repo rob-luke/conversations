@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conversation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="ml-12 mr-12 mt-6">
+      <audio class="w-full border" controls="controls" id="audio">
+        <source src="/Users/rluke/Desktop/20220809-1400-Meeting-30s.wav" type="audio/wav">
+      </audio>
+      <script>function play(t) {
+var audio = document.getElementById('audio');
+audio.currentTime = t;
+audio.play();
+}</script>
+      <div class="pt-2" id="conversation">
+        <p class="border ml-2 m-1 w-32 bg-blue-50 mb-2 mt-4 p-1 pl-2">Speaker: 1</p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(0.0)" type="button" value="00:00 - 00:04 :  And is Jessica to come?">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(3.6)" type="button" value="00:04 - 00:06 :  No, unfortunately.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(6.48)" type="button" value="00:06 - 00:11 :  Just purely due to the amount of hours and how long it is.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(10.8)" type="button" value="00:11 - 00:16 :  Because she's got to teach and so she can she can take off like maybe a couple of days.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(16.44)" type="button" value="00:16 - 00:22 :  But like almost two weeks or 10 days or whatever it is, it's like, it's just too much.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(21.66)" type="button" value="00:22 - 00:37 :  So the Melbourne to IGU was Melbourne to Sydney, Sydney to what's the capital?">
+        </p>
+        <p class="border ml-2 m-1 w-32 bg-blue-50 mb-2 mt-4 p-1 pl-2">Speaker: 0</p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(36.76)" type="button" value="00:37 - 00:38 :  Sao Paulo?">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(37.760000000000005)" type="button" value="00:38 - 00:39 :  Oh yeah.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(38.760000000000005)" type="button" value="00:39 - 00:40 :  Yeah.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(39.760000000000005)" type="button" value="00:40 - 00:41 :  Yep.">
+        </p>
+        <p class="border ml-2 m-1 w-32 bg-blue-50 mb-2 mt-4 p-1 pl-2">Speaker: 1</p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(40.760000000000005)" type="button" value="00:41 - 00:43 :  And then and then one one internal flight.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(43.44)" type="button" value="00:43 - 00:44 :  Oh, is it?">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(44.44)" type="button" value="00:44 - 00:45 :  Sorry.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(45.44)" type="button" value="00:45 - 00:46 :  So then it wasn't.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(46.44)" type="button" value="00:46 - 00:50 :  It was Sao Paulo, I think.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(49.8)" type="button" value="00:50 - 00:51 :  Okay.">
+        </p>
+        <p class="ml-8 mr-2 m-1 border">
+          <input class="m-1" onclick="play(50.8)" type="button" value="00:51 - 00:55 :  So yeah, that's four flights, which is where a lot of the time sync comes from.">
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

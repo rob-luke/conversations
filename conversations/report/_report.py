@@ -14,19 +14,19 @@ audio.play();
 
 
 def generate(
-    transcript: dict, audio_file: Path | None = None, diarisation: dict | None = None
+    transcript: dict, diarisation: dict | None = None, audio_file: Path | None = None, 
 ):
-    """Create html page from Whisper transcript.
+    """Create html page from conversation.
 
     Parameters
     ----------
     transcript : dict
         Transcript from transcribe module.
+    diarisation : dict
+        Speaker diarisation from from diarisation module.
     audio_file : PosixPath | None
         Path to audio file. If provided, audio will be embedded in the
         report and timestamps will link to audio times.
-    diarisation : dict
-        Speaker diarisation from from diarisation module.
 
     Returns
     -------
