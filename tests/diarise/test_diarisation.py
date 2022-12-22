@@ -1,6 +1,5 @@
-from conversations.transcribe import whisper
+from conversations.diarise import simple
 from pathlib import Path
-from typing import Dict
 import pooch
 
 
@@ -12,9 +11,9 @@ audio_file = pooch.retrieve(
 
 def test_process():
     """Test whisper processing of audio."""
-    result = whisper.process(audio_file=Path(audio_file))
-    assert isinstance(result, Dict)
-    for seg in result["segments"]:
+    segments = simple.process(audio_file=Path(audio_file))
+    assert isinstance(segments, list)
+    for seg in segments:
         assert "start" in seg
         assert "end" in seg
-        assert "text" in seg
+        assert "label" in seg
