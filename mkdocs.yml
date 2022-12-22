@@ -7,6 +7,7 @@ theme:
 nav:
     - Home: index.md
     - API: api.md
+    - Contributing: contributing.md
 
 plugins:
 - search
