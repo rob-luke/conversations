@@ -66,4 +66,3 @@ def _seconds_to_formatted(seconds):
     min = res[0]
     sec = round(res[1])
     return f"{int(min):02}:{int(sec):02}"
-
