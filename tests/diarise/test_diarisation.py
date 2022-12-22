@@ -17,4 +17,3 @@ def test_process():
         assert "start" in seg
         assert "end" in seg
         assert "label" in seg
-
