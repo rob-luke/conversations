@@ -88,6 +88,7 @@ convention = "numpy"
 module = [
     "whisper",
     "dominate",
+    "scipy.sparse",
     "simple_diarizer"
 ]
 ignore_missing_imports = true
