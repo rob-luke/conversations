@@ -36,6 +36,8 @@ dependencies = [
   "mkdocstrings[python]",
   "mkdocs-material",
   "toml",
+  "soundfile",
+  "simple-diarizer",
   "codespell",
   "mypy",
   "pooch",
@@ -85,6 +87,8 @@ convention = "numpy"
 [[tool.mypy.overrides]]
 module = [
     "whisper",
-    "dominate"
+    "dominate",
+    "simple_diarizer"
 ]
 ignore_missing_imports = true
+
