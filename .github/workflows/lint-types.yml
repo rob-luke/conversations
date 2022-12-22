@@ -36,4 +36,4 @@ jobs:
       run: pip install --upgrade hatch
 
     - name: Run tests
-      run: hatch run mypy
+      run: hatch run mypy conversations
