@@ -14,7 +14,9 @@ audio.play();
 
 
 def generate(
-    transcript: dict, diarisation: dict | None = None, audio_file: Path | None = None, 
+    transcript: dict,
+    diarisation: dict | None = None,
+    audio_file: Path | None = None,
 ):
     """Create html page from conversation.
 
