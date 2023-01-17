@@ -4,10 +4,12 @@ import pooch
 import dominate
 
 
-audio_file = Path(pooch.retrieve(
-    url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",
-    known_hash="md5:77d8b60c54dffbb74d48c4a65cd59591",
-))
+audio_file = Path(
+    pooch.retrieve(
+        url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",
+        known_hash="md5:77d8b60c54dffbb74d48c4a65cd59591",
+    )
+)
 
 
 def test_conv_type():
@@ -21,4 +23,3 @@ def test_conv_report():
     conv.diarise()
     html_report = conv.report()
     assert isinstance(html_report, dominate.document)
-    
