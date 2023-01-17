@@ -1,5 +1,21 @@
 # Application Programming Interface
 
+
+## Conversations Interface
+
+::: conversations.Conversation
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+      members:
+        - transcribe
+        - diarise
+        - report
+
+
 ## Low-Level Interface
 
 ### Transcription
