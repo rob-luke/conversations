@@ -16,6 +16,20 @@ class Conversation:
     """
 
     def __init__(self, recording: Path, num_speakers: int = 2):
+        """Initialise Conversations class.
+        
+        Parameters
+        ----------
+        recording : pathlib.Path
+            Path to the conversation recording.
+        num_speakers : int
+            The number of speakers in the conversation.
+            
+        Returns
+        -------
+        conversation : Conversation
+            Instance of Conversation.
+        """
         self._recording = recording
         self._num_speakers = num_speakers
 
