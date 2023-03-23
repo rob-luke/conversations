@@ -42,7 +42,6 @@ def generate(
 
     with doc:
         with dominate.tags.div(cls="ml-12 mr-12 mt-6"):
-
             if audio_file is not None:
                 with dominate.tags.audio(
                     id="audio", controls="controls", cls="w-full border"
@@ -52,10 +51,8 @@ def generate(
                 dominate.tags.script(test)
 
             with dominate.tags.div(id="conversation", cls="pt-2"):
-
                 current_speaker = None
                 for seg in transcript["segments"]:
-
                     start = seg["start"]
                     stop = seg["end"]
                     mid_time = start + ((stop - start) / 2)
@@ -71,7 +68,6 @@ def generate(
                             )
 
                     with dominate.tags.p(cls="ml-8 mr-2 m-1 border"):
-
                         dominate.tags.input_(
                             value=f"{_seconds_to_formatted(start)} - {_seconds_to_formatted(stop)} : {seg['text']}",
                             cls="m-1",
