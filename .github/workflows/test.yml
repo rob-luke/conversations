@@ -23,6 +23,8 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         python-version: ['3.10']
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
     - uses: actions/checkout@v3
