@@ -32,6 +32,8 @@ class Conversation:
         """
         self._recording = recording
         self._num_speakers = num_speakers
+        self._transcription = None
+        self._diarisation = None
 
     def transcribe(self, method: str = "whisper", model: str = "medium.en"):
         """Transcribe a conversation."""
@@ -49,12 +51,15 @@ class Conversation:
             audio_file=self._recording, num_speakers=self._num_speakers
         )
 
-    def report(self):
+    def report(self, audio_file=None):
         """Generate a report of a conversation."""
         from .report import generate
 
+        if audio_file is None:
+            audio_file = self._recording
+
         return generate(
             transcript=self._transcription,
-            audio_file=self._recording,
+            audio_file=audio_file,
             diarisation=self._diarisation,
         )

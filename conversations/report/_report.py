@@ -1,9 +1,6 @@
-import pathlib
 import numpy as np
 import dominate
 from pathlib import Path
-
-from scipy.sparse import dia
 
 
 test = """function play(t) {
@@ -35,6 +32,9 @@ def generate(
     report : dominate.document
         Conversation report as a dominate document.
     """
+    if diarisation is not None:
+        transcript = _group_transcript_segements_by_speaker(transcript, diarisation)
+
     doc = dominate.document(title="Conversation")
 
     with doc.head:
@@ -51,31 +51,38 @@ def generate(
                 dominate.tags.script(test)
 
             with dominate.tags.div(id="conversation", cls="pt-2"):
-                current_speaker = None
+                previous_speaker = None
                 for seg in transcript["segments"]:
                     start = seg["start"]
                     stop = seg["end"]
-                    mid_time = start + ((stop - start) / 2)
+                    speaker = _get_segement_speaker(seg)
 
-                    if diarisation is not None:
-                        speaker = _find_current_speaker(mid_time, diarisation)
+                    with dominate.tags.p(cls="mr-2 m-1 flex"):
+                        if diarisation is not None:
+                            if speaker != previous_speaker:
+                                dominate.tags.input_(
+                                    value=f"Speaker {speaker}",
+                                    cls="border m-1 bg-blue-50 mb-2 mt-4 p-1 pl-2 pr-2",
+                                    type="button",
+                                    onclick=f"play({start})",
+                                )
+                                previous_speaker = speaker
 
-                        if speaker != current_speaker:
-                            current_speaker = speaker
-                            dominate.tags.p(
-                                f"Speaker: {speaker}",
-                                cls="border ml-2 m-1 w-32 bg-blue-50 mb-2 mt-4 p-1 pl-2",
-                            )
-
-                    with dominate.tags.p(cls="ml-8 mr-2 m-1 border"):
-                        dominate.tags.input_(
-                            value=f"{_seconds_to_formatted(start)} - {_seconds_to_formatted(stop)} : {seg['text']}",
-                            cls="m-1",
-                            type="button",
+                        dominate.tags.p(
+                            f"{seg['text']}",
+                            cls="ml-8 mr-8 m-1",
                             onclick=f"play({start})",
                         )
 
     return doc
+
+
+def _get_segement_speaker(segment) -> str:
+    """Get speaker label from segment."""
+    if "speaker" in segment:
+        return segment["speaker"]
+    else:
+        return "unknown"
 
 
 def _seconds_to_formatted(seconds):
@@ -94,3 +101,38 @@ def _find_current_speaker(timeval, diarisation) -> str:
         if (seg["start"] < timeval) & (next_seg["start"] > timeval):
             return str(seg["label"])
     return str(diarisation[-1]["label"])
+
+
+def _group_transcript_segements_by_speaker(
+    transcript, diarization, seconds_per_segment=20
+):
+    """Group transcript segments by speaker."""
+    speaker_segments = []
+    current_speaker = ""
+    for seg in transcript["segments"]:
+        start = seg["start"]
+        stop = seg["end"]
+        mid_time = start + ((stop - start) / 2)
+
+        speaker = _find_current_speaker(mid_time, diarization)
+
+        if speaker != current_speaker:
+            current_speaker = speaker
+            speaker_segments.append(
+                {"speaker": speaker, "text": seg["text"], "start": start, "end": stop}
+            )
+        else:
+            if stop - speaker_segments[-1]["start"] > seconds_per_segment:
+                speaker_segments.append(
+                    {
+                        "speaker": speaker,
+                        "text": seg["text"],
+                        "start": start,
+                        "end": stop,
+                    }
+                )
+            else:
+                speaker_segments[-1]["text"] += " " + seg["text"]
+                speaker_segments[-1]["end"] = stop
+
+    return {"segments": speaker_segments}
