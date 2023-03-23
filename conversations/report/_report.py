@@ -1,7 +1,7 @@
 import numpy as np
 import dominate
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 
 test = """function play(t) {
@@ -13,8 +13,8 @@ audio.play();
 
 def generate(
     transcript: dict,
-    diarisation: dict | None = None,
-    audio_file: Path | None = None,
+    diarisation: Optional[List[Dict[str, Any]]] = None,
+    audio_file: Optional[Path] = None,
     speaker_mapping: Optional[dict] = None,
 ):
     """Create html page from conversation.

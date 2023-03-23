@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class Conversation:
@@ -32,8 +33,8 @@ class Conversation:
         """
         self._recording = recording
         self._num_speakers = num_speakers
-        self._transcription = None
-        self._diarisation = None
+        self._transcription: Optional[Dict[str, str]] = None
+        self._diarisation: Optional[List[Dict[str, Any]]] = None
 
     def transcribe(self, method: str = "whisper", model: str = "medium.en"):
         """Transcribe a conversation."""
