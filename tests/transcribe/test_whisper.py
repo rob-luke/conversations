@@ -10,7 +10,7 @@ audio_file = pooch.retrieve(
 )
 
 
-def test_process():
+def test_local_process():
     """Test whisper processing of audio."""
     result = whisper.process(audio_file=Path(audio_file))
     assert isinstance(result, Dict)
@@ -18,3 +18,21 @@ def test_process():
         assert "start" in seg
         assert "end" in seg
         assert "text" in seg
+
+
+def test_cloud_process():
+    """Test whisper processing of audio via api."""
+    result = whisper.process(audio_file=Path(audio_file), model_name="openai.en")
+    assert isinstance(result, Dict)
+    for seg in result["segments"]:
+        assert "start" in seg
+        assert "end" in seg
+        assert "text" in seg
+
+
+def test_match_local_and_cloud_process():
+    """Test that local and cloud processing return the same results."""
+    local_result = whisper.process(audio_file=Path(audio_file))
+    cloud_result = whisper.process(audio_file=Path(audio_file), model_name="openai.en")
+    assert "million" in local_result["segments"][0]["text"]
+    assert "million" in cloud_result["segments"][0]["text"]

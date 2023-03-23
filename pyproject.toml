@@ -39,6 +39,7 @@ dependencies = [
   "soundfile",
   "simple-diarizer",
   "codespell",
+  "openai",
   "mypy",
   "pooch",
   "pydocstyle",
