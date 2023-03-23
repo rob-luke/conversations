@@ -1,6 +1,7 @@
 import numpy as np
 import dominate
 from pathlib import Path
+from typing import Optional
 
 
 test = """function play(t) {
@@ -14,6 +15,7 @@ def generate(
     transcript: dict,
     diarisation: dict | None = None,
     audio_file: Path | None = None,
+    speaker_mapping: Optional[dict] = None,
 ):
     """Create html page from conversation.
 
@@ -26,6 +28,9 @@ def generate(
     audio_file : PosixPath | None
         Path to audio file. If provided, audio will be embedded in the
         report and timestamps will link to audio times.
+    speaker_mapping : dict
+        Mapping of old speaker names to new speaker names.
+        For example, {"0": "Alice", "1": "Bob"}.
 
     Returns
     -------
@@ -34,6 +39,9 @@ def generate(
     """
     if diarisation is not None:
         transcript = _group_transcript_segements_by_speaker(transcript, diarisation)
+
+    if speaker_mapping is not None:
+        transcript = _map_speaker_names(transcript, speaker_mapping)
 
     doc = dominate.document(title="Conversation")
 
@@ -61,7 +69,7 @@ def generate(
                         if diarisation is not None:
                             if speaker != previous_speaker:
                                 dominate.tags.input_(
-                                    value=f"Speaker {speaker}",
+                                    value=f"{speaker}",
                                     cls="border m-1 bg-blue-50 mb-2 mt-4 p-1 pl-2 pr-2",
                                     type="button",
                                     onclick=f"play({start})",
@@ -75,6 +83,32 @@ def generate(
                         )
 
     return doc
+
+
+def _map_speaker_names(transcript: dict, speaker_mapping: dict) -> dict:
+    """Map old speaker names to new speaker names in transcript.
+
+    Parameters
+    ----------
+    transcript : dict
+        Transcript from transcribe module.
+    speaker_mapping : dict
+        Mapping of old speaker names to new speaker names.
+
+    Returns
+    -------
+    mapped_transcript : dict
+        Transcript with updated speaker names.
+    """
+    mapped_segments = []
+
+    for seg in transcript["segments"]:
+        mapped_seg = seg.copy()
+        if "speaker" in seg and seg["speaker"] in speaker_mapping:
+            mapped_seg["speaker"] = speaker_mapping[seg["speaker"]]
+        mapped_segments.append(mapped_seg)
+
+    return {"segments": mapped_segments}
 
 
 def _get_segement_speaker(segment) -> str:
