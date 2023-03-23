@@ -133,3 +133,6 @@ tests/output/*.html
 ***.DS_Store
 examples/
 pretrained_models/
+
+# Ignore pycharm files
+.idea/
