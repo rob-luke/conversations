@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class Conversation:
@@ -32,8 +33,8 @@ class Conversation:
         """
         self._recording = recording
         self._num_speakers = num_speakers
-        self._transcription = None
-        self._diarisation = None
+        self._transcription: Optional[Dict[str, str]] = None
+        self._diarisation: Optional[List[Dict[str, Any]]] = None
 
     def transcribe(self, method: str = "whisper", model: str = "medium.en"):
         """Transcribe a conversation."""
@@ -51,7 +52,7 @@ class Conversation:
             audio_file=self._recording, num_speakers=self._num_speakers
         )
 
-    def report(self, audio_file=None):
+    def report(self, audio_file=None, speaker_mapping=None):
         """Generate a report of a conversation."""
         from .report import generate
 
@@ -62,4 +63,5 @@ class Conversation:
             transcript=self._transcription,
             audio_file=audio_file,
             diarisation=self._diarisation,
+            speaker_mapping=speaker_mapping,
         )

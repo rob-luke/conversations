@@ -1,8 +1,9 @@
 from pathlib import Path
 from simple_diarizer import diarizer
+from typing import Any, Dict, List, Optional
 
 
-def process(audio_file: Path, num_speakers: int = 2) -> list[dict]:
+def process(audio_file: Path, num_speakers: int = 2) -> List[Dict[str, Any]]:
     """Diarise audio using simple_diarizer.
 
     Parameters

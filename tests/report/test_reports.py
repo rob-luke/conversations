@@ -30,3 +30,16 @@ def test_report_with_audiofile():
 
     with open("tests/output/test_w_audio.html", "w") as f:
         f.write(html_report.render())
+
+
+def test_report_with_mapping():
+    """Test report generation."""
+    html_report = report.generate(
+        transcript=transcript,
+        audio_file=audio_file,
+        speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"},
+    )
+    assert isinstance(html_report, dominate.document)
+
+    with open("tests/output/test_w_audio.html", "w") as f:
+        f.write(html_report.render())

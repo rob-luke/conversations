@@ -14,7 +14,8 @@ conversation = Conversation(recording=Path(audio_file), num_speakers=3)
 
 conversation.transcribe(model="openai.en")
 conversation.diarise()
-html_report = conversation.report(audio_file=cloud_file)
+html_report = conversation.report(audio_file=cloud_file,
+                                  speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"})
 
 
 with open('conversation.html', 'w') as f:
