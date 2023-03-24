@@ -2,7 +2,7 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/conversations.svg)](https://pypi.org/project/conversations)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/conversations.svg)](https://pypi.org/project/conversations)
-
+[![Tests](https://github.com/rob-luke/conversations/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/rob-luke/conversations/actions/workflows/test.yml)
 
 Introducing "Conversations" - a Python package designed to explore the true potential of conversational analysis.
 With its ability to transcribe, diarise, and generate visually appealing HTML reports, "Conversation" empowers you to delve deeper into the intricacies of human communication.
