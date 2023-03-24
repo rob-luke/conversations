@@ -28,15 +28,25 @@ pip install conversations
 from pathlib import Path
 from conversations import Conversation
 
+# Information about the conversation
 audio_file = Path('/path/to/audio.mp4')
 speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"}
 
+# Load the conversation
 conversation = Conversation(recording=audio_file)
 
+# Process the conversation
 conversation.transcribe()
 conversation.diarise()
-html_report = conversation.report(speaker_mapping=speaker_mapping)
+conversation.save()
 
+# Generate an interactive HTML report
+html_report = conversation.report(speaker_mapping=speaker_mapping)
 with open('conversation.html', 'w') as f:
     f.write(html_report.render())
+
+# Generate an text file of the conversation
+text_report = conversation.export_text(speaker_mapping=speaker_mapping)
+with open('conversation.txt', 'w') as f:
+    f.write(text_report)
 ```
