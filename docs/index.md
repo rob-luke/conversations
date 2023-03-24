@@ -2,7 +2,7 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/conversations.svg)](https://pypi.org/project/conversations)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/conversations.svg)](https://pypi.org/project/conversations)
-
+[![Tests](https://github.com/rob-luke/conversations/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/rob-luke/conversations/actions/workflows/test.yml)
 
 Introducing "Conversations" - a Python package designed to explore the true potential of conversational analysis.
 With its ability to transcribe, diarise, and generate visually appealing HTML reports, "Conversation" empowers you to delve deeper into the intricacies of human communication.
@@ -10,12 +10,17 @@ Recognizing that conversations are brimming with meaning conveyed not just throu
 this package brings forth an indispensable tool for understanding and interpreting the wealth of information embedded in everyday exchanges.
 `Conversations` enables you to analyze and comprehend the complex world of human interaction.
 
+
+## Documentation
+
+Comprehensive documentation including overview, api, and examples can be found at [rob-luke.github.io/conversations/](rob-luke.github.io/conversations/)
+
+
 ## Installation
 
 ```console
 pip install conversations
 ```
-
 
 ## Usage
 
@@ -35,6 +40,3 @@ html_report = conversation.report(speaker_mapping=speaker_mapping)
 with open('conversation.html', 'w') as f:
     f.write(html_report.render())
 ```
-
-
-
