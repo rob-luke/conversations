@@ -15,6 +15,7 @@
         - diarise
         - report
         - save
+        - export_text
 
 
 ::: conversations.load_conversation
@@ -52,6 +53,14 @@
 ### Report
 
 ::: conversations.report.generate
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+
+::: conversations.report.export_text
     handler: python
     options:
       show_root_heading: true

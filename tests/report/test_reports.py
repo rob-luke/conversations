@@ -1,5 +1,6 @@
 from conversations import report
 from conversations.transcribe import whisper
+from conversations.diarise import simple
 from pathlib import Path
 from typing import Dict
 import pooch
@@ -12,6 +13,7 @@ audio_file = pooch.retrieve(
 )
 
 transcript = whisper.process(audio_file=audio_file)
+diarisation = simple.process(audio_file=audio_file, num_speakers=3)
 
 
 def test_report_without_audiofile():
@@ -43,3 +45,16 @@ def test_report_with_mapping():
 
     with open("tests/output/test_w_audio.html", "w") as f:
         f.write(html_report.render())
+
+
+def test_text_export():
+    """Test report generation."""
+    text_report = report.export_text(
+        transcript=transcript,
+        speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"},
+        diarisation=diarisation,
+    )
+    assert isinstance(text_report, str)
+
+    with open("conversation.txt", "w") as f:
+        f.write(text_report)
