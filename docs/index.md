@@ -13,7 +13,7 @@ this package brings forth an indispensable tool for understanding and interpreti
 
 ## Documentation
 
-Comprehensive documentation including overview, api, and examples can be found at [rob-luke.github.io/conversations/](rob-luke.github.io/conversations/)
+Comprehensive documentation including overview, api, and examples can be found [here](rob-luke.github.io/conversations/).
 
 
 ## Installation
