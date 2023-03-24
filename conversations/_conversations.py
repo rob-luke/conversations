@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import pickle
 
 
 class Conversation:
@@ -65,3 +66,43 @@ class Conversation:
             diarisation=self._diarisation,
             speaker_mapping=speaker_mapping,
         )
+
+    def save(self, file_path: str) -> None:
+        """Save the Conversation object to disk.
+
+        Parameters
+        ----------
+        file_path : str
+            The path where the Conversation object will be saved.
+        """
+        with open(file_path, "wb") as file:
+            pickle.dump(self, file)
+
+
+def load_conversation(file_path: str) -> "Conversation":
+    """Load a Conversation object from disk.
+
+    Parameters
+    ----------
+    file_path : str
+        The path to the file containing the saved Conversation object.
+
+    Returns
+    -------
+    conversation : Conversation
+        The loaded Conversation object.
+
+    Raises
+    ------
+    ValueError
+        If the loaded object is not an instance of the Conversation class.
+    """
+    with open(file_path, "rb") as file:
+        conversation = pickle.load(file)
+
+    if not isinstance(conversation, Conversation):
+        raise ValueError(
+            "The loaded object is not an instance of the Conversation class."
+        )
+
+    return conversation
