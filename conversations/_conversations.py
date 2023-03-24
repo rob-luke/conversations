@@ -67,6 +67,16 @@ class Conversation:
             speaker_mapping=speaker_mapping,
         )
 
+    def export_text(self, speaker_mapping=None):
+        """Generate a report of a conversation."""
+        from .report import export_text
+
+        return export_text(
+            transcript=self._transcription,
+            diarisation=self._diarisation,
+            speaker_mapping=speaker_mapping,
+        )
+
     def save(self, file_path: str) -> None:
         """Save the Conversation object to disk.
 
