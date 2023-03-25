@@ -33,7 +33,7 @@ audio_file = Path('/path/to/audio.mp4')
 speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"}
 
 # Load the conversation
-conversation = Conversation(recording=audio_file)
+conversation = Conversation(recording=audio_file, speaker_mapping=speaker_mapping)
 
 # Process the conversation
 conversation.transcribe()
@@ -41,12 +41,12 @@ conversation.diarise()
 conversation.save()
 
 # Generate an interactive HTML report
-html_report = conversation.report(speaker_mapping=speaker_mapping)
+html_report = conversation.report()
 with open('conversation.html', 'w') as f:
     f.write(html_report.render())
 
 # Generate an text file of the conversation
-text_report = conversation.export_text(speaker_mapping=speaker_mapping)
+text_report = conversation.export_text()
 with open('conversation.txt', 'w') as f:
     f.write(text_report)
 ```
