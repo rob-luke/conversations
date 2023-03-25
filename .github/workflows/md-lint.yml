@@ -21,3 +21,4 @@ jobs:
         uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
           files: .
+          ignore_files: CHANGELOG.md
