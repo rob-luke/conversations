@@ -1,37 +1,20 @@
-name: Markdown Linter
+name: markdown
 
 on:
   pull_request:
     branches:
       - main
 
-permissions:
-  checks: write
-  contents: write
-
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Run markdownlint
-        uses: nosborn/github-action-markdown-cli@v3.2.0
-        with:
-          files: .
-          ignore_files: CHANGELOG.md
-
-
-  lint-changelog:
     name: Lint changelog file
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Lint changelog file
+    - name: Lint files
       uses: docker://avtodev/markdown-lint:v1 # fastest way
       with:
         args: '**.md'
+        ignore: './CONTRIBUTING.md ./README.md'
