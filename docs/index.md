@@ -1,5 +1,52 @@
 # Conversations
 
-Rich analysis of conversations.
+[![PyPI - Version](https://img.shields.io/pypi/v/conversations.svg)](https://pypi.org/project/conversations)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/conversations.svg)](https://pypi.org/project/conversations)
+[![Tests](https://github.com/rob-luke/conversations/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/rob-luke/conversations/actions/workflows/test.yml)
+
+Introducing "Conversations" - a Python package designed to explore the true potential of conversational analysis.
+With its ability to transcribe, diarise, and generate visually appealing HTML reports, "Conversation" empowers you to delve deeper into the intricacies of human communication.
+Recognizing that conversations are brimming with meaning conveyed not just through language, but also through key acoustic features like loudness, intonation, and speech rate,
+this package brings forth an indispensable tool for understanding and interpreting the wealth of information embedded in everyday exchanges.
+`Conversations` enables you to analyze and comprehend the complex world of human interaction.
 
 
+## Documentation
+
+Comprehensive documentation including overview, api, and examples can be found [here](rob-luke.github.io/conversations/).
+
+
+## Installation
+
+```console
+pip install conversations
+```
+
+## Usage
+
+```python
+from pathlib import Path
+from conversations import Conversation
+
+# Information about the conversation
+audio_file = Path('/path/to/audio.mp4')
+speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"}
+
+# Load the conversation
+conversation = Conversation(recording=audio_file, speaker_mapping=speaker_mapping)
+
+# Process the conversation
+conversation.transcribe()
+conversation.diarise()
+conversation.save()
+
+# Generate an interactive HTML report
+html_report = conversation.report()
+with open('conversation.html', 'w') as f:
+    f.write(html_report.render())
+
+# Generate an text file of the conversation
+text_report = conversation.export_text()
+with open('conversation.txt', 'w') as f:
+    f.write(text_report)
+```

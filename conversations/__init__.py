@@ -1,3 +1,2 @@
-# SPDX-FileCopyrightText: 2022-present Robert Luke <code@robertluke.net>
-#
-# SPDX-License-Identifier: MIT
+"""Conversations: A python library for analysis of conversations."""
+from ._conversations import Conversation, load_conversation

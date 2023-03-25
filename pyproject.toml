@@ -31,18 +31,29 @@ path = "conversations/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
+  "dominate",
   "mkdocs",
   "mkdocstrings[python]",
   "mkdocs-material",
+  "toml",
+  "soundfile",
+  "simple-diarizer",
+  "codespell",
+  "openai",
+  "mypy",
   "pooch",
+  "pydocstyle",
   "pytest",
   "pytest-cov",
   "python-semantic-release",
-  "whisper @ https://github.com/openai/whisper/archive/refs/heads/main.zip",
+  "openai-whisper",
 ]
+
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conversations --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
+lint = "pydocstyle conversations"
+lint-types = "mypy conversations"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["310"]
@@ -70,4 +81,16 @@ commit_parser = "semantic_release.history.angular_parser"
 build_command="hatch build"
 commit_version_number=true
 commit_subject="chore: release {version}"
+
+[pydocstyle]
+convention = "numpy"
+
+[[tool.mypy.overrides]]
+module = [
+    "whisper",
+    "dominate",
+    "scipy.sparse",
+    "simple_diarizer"
+]
+ignore_missing_imports = true
 

@@ -1,5 +1,31 @@
 # Application Programming Interface
 
+
+## Conversations Interface
+
+::: conversations.Conversation
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+      members:
+        - transcribe
+        - diarise
+        - report
+        - save
+        - export_text
+
+
+::: conversations.load_conversation
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+
 ## Low-Level Interface
 
 ### Transcription
@@ -9,15 +35,35 @@
     options:
       show_root_heading: true
       show_source: false
-      show_root_full_path: false
+      show_root_full_path: true
       heading_level: 4
 
 
 ### Diarisation
 
-Coming soon.
+::: conversations.diarise.simple.process
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
 
 
 ### Report
 
-Coming soon.
+::: conversations.report.generate
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+
+::: conversations.report.export_text
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
