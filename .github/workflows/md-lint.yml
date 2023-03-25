@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    name: Lint changelog file
+    name: lint
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
