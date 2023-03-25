@@ -16,5 +16,5 @@ jobs:
     - name: Lint files
       uses: docker://avtodev/markdown-lint:v1 # fastest way
       with:
-        args: '**.md'
-        ignore: './CONTRIBUTING.md ./README.md'
+        args: '**/*.md'
+        ignore: './CONTRIBUTING.md ./README.md ./CHANGELOG.md'
