@@ -21,7 +21,8 @@ class Conversation:
         self,
         recording: Path,
         num_speakers: int = 2,
-        reload: bool = False,
+        reload: bool = True,
+        speaker_mapping: Optional[Dict[str, str]] = None,
     ):
         """Initialise Conversations class.
 
@@ -34,6 +35,8 @@ class Conversation:
         reload : bool
             If True, try to load an existing saved conversation with the default filename.
             If False, create a new Conversation instance.
+        speaker_mapping : Optional[Dict[str, str]]
+            A dictionary mapping speaker IDs to speaker names.
 
         Returns
         -------
@@ -44,6 +47,7 @@ class Conversation:
         self._num_speakers = num_speakers
         self._transcription: Optional[Dict[str, str]] = None
         self._diarisation: Optional[List[Dict[str, Any]]] = None
+        self._speaker_mapping = speaker_mapping
 
         if reload:
             default_file_path = str(_create_default_save_filename(recording))
@@ -52,6 +56,10 @@ class Conversation:
                 self.__dict__.update(loaded_conversation.__dict__)
             except FileNotFoundError:
                 print(f"No saved conversation was found at {default_file_path}.")
+
+            # Overwrite reloaded values if user redefines them
+            if speaker_mapping is not None:
+                self._speaker_mapping = speaker_mapping
 
     def transcribe(self, method: str = "whisper", model: str = "medium.en"):
         """Transcribe a conversation."""
@@ -79,7 +87,7 @@ class Conversation:
             audio_file=self._recording, num_speakers=self._num_speakers
         )
 
-    def report(self, audio_file=None, speaker_mapping=None):
+    def report(self, audio_file=None):
         """Generate a report of a conversation."""
         from .report import generate
 
@@ -90,17 +98,17 @@ class Conversation:
             transcript=self._transcription,
             audio_file=audio_file,
             diarisation=self._diarisation,
-            speaker_mapping=speaker_mapping,
+            speaker_mapping=self._speaker_mapping,
         )
 
-    def export_text(self, speaker_mapping=None):
-        """Generate a report of a conversation."""
+    def export_text(self):
+        """Export the transcript and diarisation as text."""
         from .report import export_text
 
         return export_text(
             transcript=self._transcription,
             diarisation=self._diarisation,
-            speaker_mapping=speaker_mapping,
+            speaker_mapping=self._speaker_mapping,
         )
 
     def save(self, file_path: Optional[str] = None) -> None:
