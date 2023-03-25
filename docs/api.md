@@ -1,6 +1,5 @@
 # Application Programming Interface
 
-
 ## Conversations Interface
 
 ::: conversations.Conversation
@@ -16,7 +15,6 @@
         - report
         - save
         - export_text
-
 
 ::: conversations.load_conversation
     handler: python
@@ -38,7 +36,6 @@
       show_root_full_path: true
       heading_level: 4
 
-
 ### Diarisation
 
 ::: conversations.diarise.simple.process
@@ -48,7 +45,6 @@
       show_source: false
       show_root_full_path: true
       heading_level: 4
-
 
 ### Report
 
