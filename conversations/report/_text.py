@@ -11,7 +11,8 @@ def export_text(
     diarisation: Optional[List[Dict[str, Any]]] = None,
     speaker_mapping: Optional[dict] = None,
 ):
-    """
+    """Create text file from conversation.
+
     Exports the transcript as a text document while grouping segments by speaker (if diarisation is provided) and
     mapping speaker names (if speaker_mapping is provided).
 

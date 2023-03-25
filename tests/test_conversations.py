@@ -1,4 +1,5 @@
 from conversations import Conversation, load_conversation
+from conversations._conversations import _create_default_save_filename
 from pathlib import Path
 import pooch
 import dominate
@@ -72,3 +73,49 @@ def test_invalid_conversation():
 
         # Remove the temporary file
         os.remove(invalid_conversation_file)
+
+
+@pytest.mark.parametrize(
+    "audio_file_path, expected_conversation_file_path",
+    [
+        ("my-audio-file.mp3", "my-audio-file.conv"),
+        ("my-audio-file.ext", "my-audio-file.conv"),
+        ("my-audio-file.m4a", "my-audio-file.conv"),
+        ("my-audio-file.wav", "my-audio-file.conv"),
+        ("my-audio-file.mov", "my-audio-file.conv"),
+        ("my-audio-file.mkv", "my-audio-file.conv"),
+        ("my audio file.mp3", "my audio file.conv"),
+        ("my_audio_file.mp3", "my_audio_file.conv"),
+        ("./my-audio-file.mp3", "./my-audio-file.conv"),
+        ("../../my-audio-file.mp3", "../../my-audio-file.conv"),
+        ("/path/to/my/file/my-audio-file.mp3", "/path/to/my/file/my-audio-file.conv"),
+        ("/path/to/my file/my-audio-file.mp3", "/path/to/my file/my-audio-file.conv"),
+    ],
+)
+def test_create_default_filename(audio_file_path, expected_conversation_file_path):
+    assert _create_default_save_filename(Path(audio_file_path)) == Path(
+        expected_conversation_file_path
+    )
+
+
+def test_save_and_reload_conversation(tmp_path: Path):
+    # Create a dummy recording file
+    recording_path = audio_file
+    recording_path.touch()
+
+    # Create a new conversation
+    conversation = Conversation(recording=recording_path)
+
+    # Save the conversation with the default filename
+    conversation.save()
+
+    # Check if the saved conversation file exists
+    saved_conversation_path = _create_default_save_filename(recording_path)
+    assert saved_conversation_path.is_file()
+
+    # Load the existing saved conversation with the default filename
+    loaded_conversation = Conversation(recording=recording_path, reload=True)
+
+    # Check if the loaded conversation has the same recording path as the original conversation
+    assert loaded_conversation._recording == conversation._recording
+    assert loaded_conversation._num_speakers == conversation._num_speakers
