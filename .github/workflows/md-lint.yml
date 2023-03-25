@@ -17,4 +17,4 @@ jobs:
       uses: docker://avtodev/markdown-lint:v1 # fastest way
       with:
         args: '**/*.md'
-        ignore: './CONTRIBUTING.md ./README.md ./CHANGELOG.md'
+        ignore: './CONTRIBUTING.md ./README.md ./CHANGELOG.md ./docs/changelog.md'
