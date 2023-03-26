@@ -10,6 +10,7 @@
       show_root_full_path: true
       heading_level: 4
       members:
+        - __init__
         - transcribe
         - diarise
         - report
