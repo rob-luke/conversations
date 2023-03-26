@@ -18,7 +18,16 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+
+dependencies = [
+  "dominate",
+  "toml",
+  "soundfile",
+  "simple-diarizer",
+  "openai",
+  "pooch",
+  "openai-whisper",
+]
 dynamic = ["version"]
 
 [project.urls]
