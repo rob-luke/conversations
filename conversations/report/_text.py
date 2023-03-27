@@ -51,7 +51,8 @@ def export_text(
 
     previous_speaker = None
 
-    doc += "Meeting Transcript from " + datetimestr + "\n\n"
+    if datetimestr is not None:
+        doc += "Meeting Transcript from " + datetimestr + "\n\n"
 
     for seg in transcript["segments"]:
         speaker = _get_segement_speaker(seg)
