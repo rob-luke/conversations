@@ -10,6 +10,7 @@ def export_text(
     transcript: dict,
     diarisation: Optional[List[Dict[str, Any]]] = None,
     speaker_mapping: Optional[dict] = None,
+    datetimestr: Optional[str] = None,
 ):
     """Create text file from conversation.
 
@@ -49,6 +50,8 @@ def export_text(
     doc = ""
 
     previous_speaker = None
+
+    doc += "Meeting Transcript from " + datetimestr + "\n\n"
 
     for seg in transcript["segments"]:
         speaker = _get_segement_speaker(seg)

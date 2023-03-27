@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import pickle
+from datetime import datetime, timezone
+import os
 
 
 class Conversation:
@@ -23,6 +25,7 @@ class Conversation:
         num_speakers: int = 2,
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
+        meeting_datetime: Optional[datetime] = None,
     ):
         """Initialise Conversations class.
 
@@ -49,6 +52,11 @@ class Conversation:
         self._diarisation: Optional[List[Dict[str, Any]]] = None
         self._speaker_mapping = speaker_mapping
 
+        if meeting_datetime is not None:
+            self._meeting_datetime = meeting_datetime
+        else:
+            self._meeting_datetime = self._extract_datetime_from_file(recording)
+
         if reload:
             default_file_path = str(_create_default_save_filename(recording))
             try:
@@ -60,6 +68,14 @@ class Conversation:
             # Overwrite reloaded values if user redefines them
             if speaker_mapping is not None:
                 self._speaker_mapping = speaker_mapping
+
+        formatted_datetime = self._meeting_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
+        print(f"Loaded conversation from: {formatted_datetime}")
+
+    @staticmethod
+    def _extract_datetime_from_file(file_path: Path) -> datetime:
+        created_timestamp = os.path.getmtime(file_path)
+        return datetime.fromtimestamp(created_timestamp, timezone.utc)
 
     def transcribe(self, method: str = "whisper", model: str = "medium.en"):
         """Transcribe a conversation."""
@@ -109,6 +125,7 @@ class Conversation:
             transcript=self._transcription,
             diarisation=self._diarisation,
             speaker_mapping=self._speaker_mapping,
+            datetimestr=self._meeting_datetime.strftime("%Y-%m-%d %H:%M:%S %Z"),
         )
 
     def save(self, file_path: Optional[str] = None) -> None:
