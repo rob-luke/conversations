@@ -22,7 +22,7 @@ class Conversation:
     def __init__(
         self,
         recording: Path,
-        num_speakers: Optional[int] = None,  # Make num_speakers optional
+        num_speakers: Optional[int] = 2,
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
         meeting_datetime: Optional[datetime] = None,
