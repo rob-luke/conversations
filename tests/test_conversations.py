@@ -7,6 +7,7 @@ import os
 import tempfile
 import pytest
 import pickle
+from datetime import datetime, timezone, timedelta
 
 
 audio_file = Path(
@@ -119,3 +120,23 @@ def test_save_and_reload_conversation(tmp_path: Path):
     # Check if the loaded conversation has the same recording path as the original conversation
     assert loaded_conversation._recording == conversation._recording
     assert loaded_conversation._num_speakers == conversation._num_speakers
+
+
+def test_meeting_datetime():
+    # Test with the provided meeting_datetime parameter
+    meeting_datetime = datetime(2022, 1, 1, 12, 0, 0, 0, tzinfo=timezone.utc)
+    conv_with_datetime = Conversation(
+        recording=audio_file, meeting_datetime=meeting_datetime, reload=False
+    )
+    assert abs(conv_with_datetime._meeting_datetime - meeting_datetime) < timedelta(
+        seconds=1
+    )
+
+    # Test without the meeting_datetime parameter (get from file metadata)
+    conv_without_datetime = Conversation(recording=audio_file, reload=False)
+    file_metadata_datetime = conv_without_datetime._extract_datetime_from_file(
+        audio_file
+    )
+    assert abs(
+        conv_without_datetime._meeting_datetime - file_metadata_datetime
+    ) < timedelta(seconds=1)
