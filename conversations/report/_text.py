@@ -11,6 +11,7 @@ def export_text(
     diarisation: Optional[List[Dict[str, Any]]] = None,
     speaker_mapping: Optional[dict] = None,
     datetimestr: Optional[str] = None,
+    attendees: Optional[List[str]] = None,
 ):
     """Create text file from conversation.
 
@@ -27,6 +28,10 @@ def export_text(
     speaker_mapping : Optional[Dict[str, str]], default=None
         A dictionary that maps speaker identifiers to speaker names. The key is the speaker identifier and the value
         is the speaker name.
+    datetimestr : Optional[str], default=None
+        A string representing the date and time of the meeting.
+    attendees : Optional[List[str]], default=None
+        A list of attendees in the meeting.
 
     Returns
     -------
@@ -52,7 +57,13 @@ def export_text(
     previous_speaker = None
 
     if datetimestr is not None:
-        doc += "Meeting Transcript from " + datetimestr + "\n\n"
+        doc += (
+            "Meeting Transcript from "
+            + datetimestr
+            + " with attendees: "
+            + ", ".join(attendees)
+            + "\n\n"
+        )
 
     for seg in transcript["segments"]:
         speaker = _get_segement_speaker(seg)
