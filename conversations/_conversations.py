@@ -69,6 +69,9 @@ class Conversation:
             if speaker_mapping is not None:
                 self._speaker_mapping = speaker_mapping
 
+            if meeting_datetime is not None:
+                self._meeting_datetime = meeting_datetime
+
         formatted_datetime = self._meeting_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
         print(f"Loaded conversation from: {formatted_datetime}")
 
