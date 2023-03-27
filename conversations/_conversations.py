@@ -22,10 +22,11 @@ class Conversation:
     def __init__(
         self,
         recording: Path,
-        num_speakers: int = 2,
+        num_speakers: Optional[int] = None,  # Make num_speakers optional
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
         meeting_datetime: Optional[datetime] = None,
+        attendees: Optional[List[str]] = None,  # Add the new parameter
     ):
         """Initialise Conversations class.
 
@@ -74,6 +75,25 @@ class Conversation:
 
         formatted_datetime = self._meeting_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
         print(f"Loaded conversation from: {formatted_datetime}")
+
+        self._attendees = attendees  # Store the attendees
+        if self._attendees is not None:
+            print("Attendees:")
+            for attendee in self._attendees:
+                print(f"- {attendee}")
+
+        # Set num_speakers based on attendees if not provided
+        if num_speakers is None and attendees is not None:
+            self._num_speakers = len(attendees)
+        else:
+            self._num_speakers = num_speakers
+
+        # Verify that num_speakers is equal to the number of attendees
+        if num_speakers is not None and attendees is not None:
+            if num_speakers != len(attendees):
+                raise ValueError(
+                    "The number of speakers must match the number of attendees."
+                )
 
     @staticmethod
     def _extract_datetime_from_file(file_path: Path) -> datetime:
@@ -129,6 +149,7 @@ class Conversation:
             diarisation=self._diarisation,
             speaker_mapping=self._speaker_mapping,
             datetimestr=self._meeting_datetime.strftime("%Y-%m-%d %H:%M:%S %Z"),
+            attendees=self._attendees,
         )
 
     def save(self, file_path: Optional[str] = None) -> None:

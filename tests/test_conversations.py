@@ -140,3 +140,39 @@ def test_meeting_datetime():
     assert abs(
         conv_without_datetime._meeting_datetime - file_metadata_datetime
     ) < timedelta(seconds=1)
+
+
+def test_attendees():
+    attendees = ["Alice", "Bob", "Charlie"]
+    conv_with_attendees = Conversation(
+        recording=audio_file, attendees=attendees, reload=False
+    )
+    assert conv_with_attendees._attendees == attendees
+    assert conv_with_attendees._num_speakers == len(attendees)
+
+
+def test_num_speakers_and_attendees_mismatch():
+    attendees = ["Alice", "Bob", "Charlie"]
+    num_speakers = 2
+    with pytest.raises(
+        ValueError, match="The number of speakers must match the number of attendees."
+    ):
+        Conversation(
+            recording=audio_file,
+            num_speakers=num_speakers,
+            attendees=attendees,
+            reload=False,
+        )
+
+
+def test_num_speakers_and_attendees():
+    attendees = ["Alice", "Bob", "Charlie"]
+    num_speakers = len(attendees)
+    conv_with_speakers_attendees = Conversation(
+        recording=audio_file,
+        num_speakers=num_speakers,
+        attendees=attendees,
+        reload=False,
+    )
+    assert conv_with_speakers_attendees._attendees == attendees
+    assert conv_with_speakers_attendees._num_speakers == num_speakers
