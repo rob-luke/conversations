@@ -15,7 +15,9 @@ audio_file = pooch.retrieve(
 )
 
 # Process the conversation
-conversation = Conversation(recording=Path(audio_file), num_speakers=3, speaker_mapping=speaker_mapping)
+conversation = Conversation(recording=Path(audio_file),
+                            num_speakers=3,
+                            speaker_mapping=speaker_mapping)
 conversation.transcribe(model="openai.en")
 conversation.diarise()
 conversation.save()
@@ -32,5 +34,4 @@ with open('conversation.txt', 'w') as f:
 
 # Generate a text file summarising the conversation
 summary = conversation.summarise()
-with open('summary.txt', 'w') as f:
-    f.write(summary)
+print(summary)
