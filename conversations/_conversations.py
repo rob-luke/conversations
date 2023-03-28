@@ -28,7 +28,7 @@ class Conversation:
         meeting_datetime: Optional[datetime] = None,
         attendees: Optional[List[str]] = None,
         transcription: Optional[Dict[str, str]] = None,
-        transcription_shortened: Optional[Dict[str, str]] = None,
+        transcription_shortened: Optional[str] = None,
         summary: Optional[str] = None,
         summary_automated: Optional[str] = None,
     ):
@@ -205,6 +205,20 @@ class Conversation:
         return self._summary_automated
 
     def query(self, query: str, print_summary: bool = True):
+        """Query the conversation.
+
+        Parameters
+        ----------
+        query : str
+            The query to ask the conversation.
+        print_summary : bool
+            If True, print the summary to the console.
+
+        Returns
+        -------
+        summary : str
+            The generated summary.
+        """
         from .ai import query as query_fn
 
         if self._transcription_shortened is None:
