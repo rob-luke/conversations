@@ -60,15 +60,25 @@ with open('conversation-summary.txt', 'w') as f:
     f.write(summary)
 
 # Summary:
-# In the meeting, Alice, Sam and Bob discuss the financial state of a businesses, the challenges of companies going private, and the evolution of private equity firms' return expectations. They also touch on the industry's early risk-taking nature. Bob mentions historical deals as examples of the early risk-taking nature of private equity firms.
+# In the meeting, Alice, Sam and Bob discuss the financial state of
+# a businesses, the challenges of companies going private, and the
+# evolution of private equity firms' return expectations. They
+# also touch on the industry's early risk-taking nature. Bob
+# mentions historical deals as examples of the early risk-taking
+# nature of private equity firms.
 # 
 # Key Points:
 # 1. Challenges of companies going private
-#    Alice: "Challenges of companies going private, especially in terms of cutting expenses and finding new ways to pay employees who were previously compensated with stocks."
+#    Alice: "Challenges of companies going private, especially in
+#    terms of cutting expenses and finding new ways to pay
+#    employees who were previously compensated with stocks."
 # 2. Private equity firms' return expectations
-#    Sam: "What are private equity firms' return expectations when purchasing a company?"
+#    Sam: "What are private equity firms' return expectations
+#    when purchasing a company?"
 # 3. Evolution of the private equity industry
-#    Bob: "The industry has evolved over time, with early private equity firms taking on riskier ventures, similar to venture capitalists."
+#    Bob: "The industry has evolved over time, with early private
+#    equity firms taking on riskier ventures,
+#    similar to venture capitalists."
 # ...
 # 
 # Action Items:
@@ -87,11 +97,15 @@ with open('conversation-summary.txt', 'w') as f:
 # ...
 # 
 # Most unexpected aspect of the conversation:
-# The most unexpected aspect of the conversation was the mention of historical deals like RJR Nabisco and TWA Airlines as examples of the early risk-taking nature of private equity firms.
+# The most unexpected aspect of the conversation was the mention of
+# historical deals like RJR Nabisco and TWA Airlines as examples
+# of the early risk-taking nature of private equity firms.
 # 
 # Concepts/Topics explained in the transcript:
 # 1. Private equity firms' return expectations:
-#    Bob explains that the industry has evolved over time, with early private equity firms taking on riskier ventures, similar to venture capitalists. No inaccuracies were identified.
+#    Bob explains that the industry has evolved over time,
+#    with early private equity firms taking on riskier ventures,
+#    similar to venture capitalists. No inaccuracies were identified.
 # 
 # Tone of the conversation:
 # Overall tone: Informative and analytical
