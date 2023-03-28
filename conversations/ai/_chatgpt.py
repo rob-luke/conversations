@@ -99,12 +99,10 @@ def _content_to_message(content: str):
 
 def _shorten_transcript(transcript: str, chunk_size: int = 8192) -> str:
     chunks = _chunk_transcript(transcript, chunk_size)
-    print("\nShortening transcript...\n")
 
     summarized_chunks = []
 
     for chunk in chunks:
-        print("Processing chunk...")
         messages = _content_to_message(chunk)
 
         if _num_tokens_from_messages(messages, model="gpt-4") > 8192:
