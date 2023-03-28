@@ -1,4 +1,4 @@
-"""ChatGPT based AI for conversations"""
+"""ChatGPT based AI for conversations."""
 
 from typing import List, Optional
 import openai
@@ -6,12 +6,13 @@ import tiktoken
 
 
 class ChunkTooLongError(Exception):
+    """Raised when a chunk is too long for the model."""
+
     pass
 
 
 def _num_tokens_from_messages(messages, model="gpt-4"):
-    """
-    Returns the number of tokens used by a list of messages.
+    """Return the number of tokens used by a list of messages.
 
     Parameters
     ----------
@@ -129,8 +130,7 @@ def _shorten_transcript(transcript: str, chunk_size: int = 8192) -> str:
 
 
 def _system_prompt_summariser():
-    """
-    Generates the system prompt for the GPT model.
+    """Generate the system prompt for the GPT model.
 
     Returns
     -------
@@ -149,8 +149,7 @@ def _system_prompt_summariser():
 
 
 def _user_prompt_summariser(transcript) -> str:
-    """
-    Generates the summary prompt for the GPT model.
+    """Generate the summary prompt for the GPT model.
 
     Parameters
     ----------
@@ -200,8 +199,7 @@ def summarise(
         str
     ] = "Format your response as text and do not use markdown.",
 ) -> str:
-    """
-    Generates a meeting summary using the GPT model based on the given meeting transcript.
+    """Generate a meeting summary using the GPT model based on the given meeting transcript.
 
     Parameters
     ----------

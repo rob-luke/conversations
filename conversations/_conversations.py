@@ -22,12 +22,12 @@ class Conversation:
     def __init__(
         self,
         recording: Path,
-        num_speakers: Optional[int] = 2,
+        num_speakers: int = 2,
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
         meeting_datetime: Optional[datetime] = None,
         attendees: Optional[List[str]] = None,
-        transcription: Optional[str] = None,
+        transcription: Optional[Dict[str, str]] = None,
         summary: Optional[str] = None,
         summary_automated: Optional[str] = None,
     ):
