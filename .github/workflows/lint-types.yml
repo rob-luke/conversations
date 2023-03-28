@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 concurrency:
-  group: lint-${{ github.head_ref }}
+  group: lint-type-${{ github.head_ref }}
   cancel-in-progress: true
 
 env:
