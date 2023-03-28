@@ -55,7 +55,7 @@ with open('conversation.txt', 'w') as f:
     f.write(text_report)
 
 # Generate a text file summarising the conversation
-summary = conversation.summarise()
+summary = conversation.summarise(print_summary=True)
 with open('conversation-summary.txt', 'w') as f:
     f.write(summary)
 
