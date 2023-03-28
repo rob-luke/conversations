@@ -176,3 +176,34 @@ def test_num_speakers_and_attendees():
     )
     assert conv_with_speakers_attendees._attendees == attendees
     assert conv_with_speakers_attendees._num_speakers == num_speakers
+
+
+@pytest.fixture
+def conversation():
+    return Conversation(recording=audio_file, reload=True)
+
+
+def test_summarise_new_summary(conversation):
+    conversation.diarise()
+    conversation.transcribe()
+    summary = conversation.summarise(force=True, print_summary=False)
+    assert isinstance(summary, str)
+    assert len(summary) > 0
+
+
+def test_summarise_existing_summary(conversation):
+    conversation.diarise()
+    conversation.transcribe()
+    conversation._summary_automated = "Test summary"
+    summary = conversation.summarise(force=False, print_summary=False)
+    assert summary == "Test summary"
+
+
+def test_summarise_force_new_summary(conversation):
+    conversation.diarise()
+    conversation.transcribe()
+    conversation._summary_automated = "Test summary"
+    summary = conversation.summarise(force=True, print_summary=False)
+    assert summary != "Test summary"
+    assert isinstance(summary, str)
+    assert len(summary) > 0
