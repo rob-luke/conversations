@@ -1,5 +1,6 @@
 site_name: Conversations
 site_url: https://rob-luke.github.io/conversations/
+repo_url: https://github.com/rob-luke/conversations
 
 theme:
   name: "material"
