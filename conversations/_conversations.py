@@ -28,6 +28,7 @@ class Conversation:
         meeting_datetime: Optional[datetime] = None,
         attendees: Optional[List[str]] = None,
         transcription: Optional[Dict[str, str]] = None,
+        transcription_shortened: Optional[str] = None,
         summary: Optional[str] = None,
         summary_automated: Optional[str] = None,
     ):
@@ -57,6 +58,7 @@ class Conversation:
         self._speaker_mapping = speaker_mapping
         self._summary = summary
         self._summary_automated = summary_automated
+        self._transcription_shortened = transcription_shortened
 
         if meeting_datetime is not None:
             self._meeting_datetime = meeting_datetime
@@ -187,16 +189,47 @@ class Conversation:
         summary : str
             The generated summary.
         """
-        if (self._summary_automated is None) or force:
-            from .ai import summarise
+        if self._transcription_shortened is None:
             from .ai._chatgpt import _shorten_transcript
 
-            text_transcript = self.export_text()
-            text_transcript = _shorten_transcript(text_transcript)
-            self._summary_automated = summarise(text_transcript)
+            self._transcription_shortened = _shorten_transcript(self.export_text())
+
+        if (self._summary_automated is None) or force:
+            from .ai import summarise
+
+            self._summary_automated = summarise(self._transcription_shortened)
+
         if print_summary:
             print(self._summary_automated)
+
         return self._summary_automated
+
+    def query(self, query: str, print_summary: bool = True):
+        """Query the conversation.
+
+        Parameters
+        ----------
+        query : str
+            The query to ask the conversation.
+        print_summary : bool
+            If True, print the summary to the console.
+
+        Returns
+        -------
+        summary : str
+            The generated summary.
+        """
+        from .ai import query as query_fn
+
+        if self._transcription_shortened is None:
+            from .ai._chatgpt import _shorten_transcript
+
+            self._transcription_shortened = _shorten_transcript(self.export_text())
+
+        answer = query_fn(self._transcription_shortened, query)
+        if print_summary:
+            print(answer)
+        return answer
 
 
 def load_conversation(file_path: str) -> "Conversation":

@@ -14,6 +14,7 @@
         - transcribe
         - diarise
         - summarise
+        - query
         - save
         - report
         - export_text
