@@ -20,12 +20,17 @@ conversation.transcribe(model="openai.en")
 conversation.diarise()
 conversation.save()
 
-# Generate interactive html report
+# Generate an interactive HTML version of the conversation
 html_report = conversation.report(audio_file=cloud_file)
 with open('conversation.html', 'w') as f:
     f.write(html_report.render())
 
-# Generate a text report
+# Generate a text file of the conversation
 text_report = conversation.export_text()
 with open('conversation.txt', 'w') as f:
     f.write(text_report)
+
+# Generate a text file summarising the conversation
+summary = conversation.summarise()
+with open('summary.txt', 'w') as f:
+    f.write(summary)

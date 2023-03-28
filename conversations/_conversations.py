@@ -22,11 +22,14 @@ class Conversation:
     def __init__(
         self,
         recording: Path,
-        num_speakers: Optional[int] = 2,
+        num_speakers: int = 2,
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
         meeting_datetime: Optional[datetime] = None,
-        attendees: Optional[List[str]] = None,  # Add the new parameter
+        attendees: Optional[List[str]] = None,
+        transcription: Optional[Dict[str, str]] = None,
+        summary: Optional[str] = None,
+        summary_automated: Optional[str] = None,
     ):
         """Initialise Conversations class.
 
@@ -49,9 +52,11 @@ class Conversation:
         """
         self._recording = recording
         self._num_speakers = num_speakers
-        self._transcription: Optional[Dict[str, str]] = None
+        self._transcription = transcription
         self._diarisation: Optional[List[Dict[str, Any]]] = None
         self._speaker_mapping = speaker_mapping
+        self._summary = summary
+        self._summary_automated = summary_automated
 
         if meeting_datetime is not None:
             self._meeting_datetime = meeting_datetime
@@ -166,6 +171,32 @@ class Conversation:
 
         with open(file_path, "wb") as file:
             pickle.dump(self, file)
+
+    def summarise(self, force: bool = False, print_summary: bool = True):
+        """Generate a summary of the conversation.
+
+        Parameters
+        ----------
+        force : bool
+            If True, generate a new summary even if one already exists.
+        print_summary : bool
+            If True, print the summary to the console.
+
+        Returns
+        -------
+        summary : str
+            The generated summary.
+        """
+        if (self._summary_automated is None) or force:
+            from .ai import summarise
+            from .ai._chatgpt import _shorten_transcript
+
+            text_transcript = self.export_text()
+            text_transcript = _shorten_transcript(text_transcript)
+            self._summary_automated = summarise(text_transcript)
+        if print_summary:
+            print(self._summary_automated)
+        return self._summary_automated
 
 
 def load_conversation(file_path: str) -> "Conversation":

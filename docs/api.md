@@ -13,8 +13,9 @@
         - __init__
         - transcribe
         - diarise
-        - report
+        - summarise
         - save
+        - report
         - export_text
 
 ::: conversations.load_conversation
