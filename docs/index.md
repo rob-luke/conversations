@@ -61,7 +61,7 @@ with open('conversation-summary.txt', 'w') as f:
 
 # Summary:
 # In the meeting, Alice, Sam and Bob discuss the financial state of
-# a businesses, the challenges of companies going private, and the
+# businesses, the challenges of companies going private, and the
 # evolution of private equity firms' return expectations. They
 # also touch on the industry's early risk-taking nature. Bob
 # mentions historical deals as examples of the early risk-taking
