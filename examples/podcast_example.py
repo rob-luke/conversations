@@ -34,3 +34,7 @@ with open('conversation.txt', 'w') as f:
 summary = conversation.summarise()
 with open('summary.txt', 'w') as f:
     f.write(summary)
+
+# Query the conversation
+answer = conversation.query("What was the value of operating cash flow we were discussing?")
+print(answer)

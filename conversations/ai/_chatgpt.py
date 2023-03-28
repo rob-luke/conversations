@@ -136,12 +136,30 @@ def _system_prompt_summariser():
         The system prompt text.
     """
     system_prompt = """
-    You are a helpful writing assistant. You write polite and heartfelt emails (not overly pushy sales messages).
-    You will take the context from meeting notes that I provide and help me write friendly emails.
+    You are a helpful writing assistant. You write accurate and precise content.
+    You will take the context from conversation notes that I provide and help me write useful summaries.
     You have excellent written communication skills and always use correct grammar and spelling.
 
     You are excellent at communication and will also over-communicate if you are unsure about an answer or need more information.
     You always chose to provide more information where possible.
+    """
+    return system_prompt
+
+
+def _system_prompt_query():
+    """Generate the system prompt for the GPT model.
+
+    Returns
+    -------
+    str
+        The system prompt text.
+    """
+    system_prompt = """
+    You are a helpful assistant. You write accurate and precise response to questions I provide.
+    You will take the context from conversation notes that I provide and provide accurate response.
+    If you do not know the answer, say "I do not know the answer to that question".
+    You have excellent written communication skills and always use correct grammar and spelling.
+    Wherever possible, you will provide a quote from the conversation transcript to support your answer
     """
     return system_prompt
 
@@ -189,6 +207,35 @@ def _user_prompt_summariser(transcript) -> str:
     return summary_prompt
 
 
+def _user_prompt_query(transcript: str, query: str) -> str:
+    """Create a prompt for querying a transcript.
+
+    Parameters
+    ----------
+    transcript : str
+        The meeting transcript.
+    query : str
+        The query to ask the system.
+
+    Returns
+    -------
+    str
+        The query prompt text.
+    """
+    query_prompt = f"""
+    Below is a transcript from conversation. Please read the transcript and then answer the following question:
+    
+    Meeting transcript:
+
+    {transcript}
+    
+    Now, please answer the following question:
+
+    {query}
+    """
+    return query_prompt
+
+
 def summarise(
     transcript: str,
     system_prompt: Optional[str] = None,
@@ -227,6 +274,51 @@ def summarise(
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": summary_prompt},
+    ]
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4", temperature=0.7, messages=messages
+    )
+    return response["choices"][0]["message"]["content"]
+
+
+def query(
+    transcript: str,
+    query: str,
+    system_prompt: Optional[str] = None,
+    append_prompt: Optional[
+        str
+    ] = "Format your response as text and do not use markdown.",
+) -> str:
+    """Generate a response to a query using the GPT model based on the given meeting transcript.
+
+    Parameters
+    ----------
+    transcript : str
+        The meeting transcript.
+    query : str
+        What you would like to know from the conversation. This will be used to generate the query prompt.
+    system_prompt : Optional[str], default=None
+        The system prompt text. If not provided, it will be generated using the internal function _system_prompt_summariser().
+    append_prompt : Optional[str]
+        An additional prompt to append to the query_prompt.
+
+    Returns
+    -------
+    answer : str
+        The generated response to the query.
+    """
+    if system_prompt is None:
+        system_prompt = _system_prompt_summariser()
+
+    query_prompt = _user_prompt_query(transcript, query)
+
+    if append_prompt is not None:
+        query_prompt += append_prompt
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": query_prompt},
     ]
 
     response = openai.ChatCompletion.create(

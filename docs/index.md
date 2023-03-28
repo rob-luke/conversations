@@ -55,9 +55,21 @@ with open('conversation.txt', 'w') as f:
     f.write(text_report)
 
 # Generate a text file summarising the conversation
-summary = conversation.summarise(print_summary=True)
+summary = conversation.summarise()
 with open('conversation-summary.txt', 'w') as f:
     f.write(summary)
+
+# Query the conversation
+answer = conversation.query("What was the value of operating cash flow we were discussing?")
+
+
+print(f"The answer to your query is: {answer}")    
+print(summary)
+
+
+# The answer to your query is: The value of operating cash 
+# flow being discussed was $210 million in the last 12 months.
+
 
 # Summary:
 # In the meeting, Alice, Sam and Bob discuss the financial state of
@@ -112,4 +124,5 @@ with open('conversation-summary.txt', 'w') as f:
 # Alice's tone: Concerned and analytical
 # Bob's tone: Informative and explanatory
 # Sam's tone: Inquisitive
+
 ```
