@@ -174,7 +174,14 @@ class Conversation:
         with open(file_path, "wb") as file:
             pickle.dump(self, file)
 
-    def summarise(self, force: bool = False, print_summary: bool = True):
+    def summarise(
+        self,
+        force: bool = False,
+        print_summary: bool = True,
+        system_prompt: Optional[str] = None,
+        summary_prompt: Optional[str] = None,
+        append_prompt: Optional[str] = None,
+    ):
         """Generate a summary of the conversation.
 
         Parameters
@@ -183,6 +190,12 @@ class Conversation:
             If True, generate a new summary even if one already exists.
         print_summary : bool
             If True, print the summary to the console.
+        system_prompt : str or None
+            The system prompt to use when generating the summary.
+        summary_prompt : str or None
+            The summary prompt to use when generating the summary.
+        append_prompt : str or None
+            The append prompt to use when generating the summary.
 
         Returns
         -------
@@ -197,14 +210,25 @@ class Conversation:
         if (self._summary_automated is None) or force:
             from .ai import summarise
 
-            self._summary_automated = summarise(self._transcription_shortened)
+            self._summary_automated = summarise(
+                self._transcription_shortened,
+                system_prompt,
+                summary_prompt,
+                append_prompt,
+            )
 
         if print_summary:
             print(self._summary_automated)
 
         return self._summary_automated
 
-    def query(self, query: str, print_summary: bool = True):
+    def query(
+        self,
+        query: str,
+        print_summary: bool = True,
+        system_prompt: Optional[str] = None,
+        append_prompt: Optional[str] = None,
+    ):
         """Query the conversation.
 
         Parameters
@@ -213,11 +237,15 @@ class Conversation:
             The query to ask the conversation.
         print_summary : bool
             If True, print the summary to the console.
+        system_prompt : str or None
+            The system prompt to use when generating the summary.
+        append_prompt : str or None
+            The append prompt to use when generating the summary.
 
         Returns
         -------
         summary : str
-            The generated summary.
+            The generated query response.
         """
         from .ai import query as query_fn
 
@@ -226,7 +254,9 @@ class Conversation:
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
 
-        answer = query_fn(self._transcription_shortened, query)
+        answer = query_fn(
+            self._transcription_shortened, query, system_prompt, append_prompt
+        )
         if print_summary:
             print(answer)
         return answer
