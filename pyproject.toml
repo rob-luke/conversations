@@ -20,6 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
+  "click",
   "dominate",
   "toml",
   "soundfile",
@@ -63,6 +64,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=conver
 no-cov = "cov --no-cov {args}"
 lint = "pydocstyle conversations"
 lint-types = "mypy conversations"
+process = "python examples/process-file.py {args}"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["310"]

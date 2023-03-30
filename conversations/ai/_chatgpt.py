@@ -29,7 +29,7 @@ def _num_tokens_from_messages(messages, model="gpt-4"):
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
-        print("Warning: model not found. Using cl100k_base encoding.")
+        # print("Warning: model not found. Using cl100k_base encoding.")
         encoding = tiktoken.get_encoding("cl100k_base")
     if model == "gpt-3.5-turbo":
         print(
@@ -37,9 +37,9 @@ def _num_tokens_from_messages(messages, model="gpt-4"):
         )
         return _num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301")
     elif model == "gpt-4":
-        print(
-            "Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314."
-        )
+        # print(
+        #     "Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314."
+        # )
         return _num_tokens_from_messages(messages, model="gpt-4-0314")
     elif model == "gpt-3.5-turbo-0301":
         tokens_per_message = (
@@ -72,8 +72,11 @@ def _chunk_transcript(transcript: str, chunk_size: int) -> List[str]:
 
 def _sumarise_chunk(chunk: str, model: str, temperature: float) -> str:
     system_prompt = (
-        "You are an AI language model tasked with summarizing the following transcript "
-        "while preserving important information. Please provide a concise summary of the text."
+        "You are an AI language model tasked with shortening the following transcript "
+        "while preserving important information. You should retain the format of the transcript. "
+        "You should not remove any information from the transcript. "
+        "You can reword or summarise what a speaker says while retaining all "
+        "important information and retaining the format of the transcript."
     )
     messages = [
         {"role": "system", "content": system_prompt},
@@ -91,7 +94,7 @@ def _content_to_message(content: str):
         {"role": "system", "content": _system_prompt_summariser()},
         {
             "role": "user",
-            "content": f"Reduce the length of this transcript to approximately half the length of the original text but not to remove any important information.\n\n {content}",
+            "content": f"Reduce the length of this transcript to approximately half the length of the original text. Do not to remove any important information. Be sure to retain all dates and their context. Retain all numbers and values and their context \n\n {content}",
         },
     ]
     return messages
@@ -156,7 +159,7 @@ def _system_prompt_query():
     """
     system_prompt = """
     You are a helpful assistant. You write accurate and precise response to questions I provide.
-    You will take the context from conversation notes that I provide and provide accurate response.
+    You will take the context from conversation transcription that I provide and provide accurate responses to the questions I ask.
     If you do not know the answer, say "I do not know the answer to that question".
     You have excellent written communication skills and always use correct grammar and spelling.
     Wherever possible, you will provide a quote from the conversation transcript to support your answer
@@ -309,7 +312,7 @@ def query(
         The generated response to the query.
     """
     if system_prompt is None:
-        system_prompt = _system_prompt_summariser()
+        system_prompt = _system_prompt_query()
 
     query_prompt = _user_prompt_query(transcript, query)
 

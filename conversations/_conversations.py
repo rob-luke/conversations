@@ -189,7 +189,7 @@ class Conversation:
         summary : str
             The generated summary.
         """
-        if self._transcription_shortened is None:
+        if (self._transcription_shortened is None) or force:
             from .ai._chatgpt import _shorten_transcript
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
@@ -204,7 +204,7 @@ class Conversation:
 
         return self._summary_automated
 
-    def query(self, query: str, print_summary: bool = True):
+    def query(self, query: str, print_summary: bool = True, force: bool = False):
         """Query the conversation.
 
         Parameters
@@ -221,7 +221,8 @@ class Conversation:
         """
         from .ai import query as query_fn
 
-        if self._transcription_shortened is None:
+        if (self._transcription_shortened is None) or force:
+            print("Shortening transcript...")
             from .ai._chatgpt import _shorten_transcript
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
