@@ -266,7 +266,7 @@ class Conversation:
             The shortened transcript of the conversation.
         """
         if self._transcription_shortened is None:
-            from .ai._chatgpt import _shorten_transcript
+            from .ai._shorten_transcript import _shorten_transcript
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
 
