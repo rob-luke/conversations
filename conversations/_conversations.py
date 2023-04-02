@@ -270,8 +270,7 @@ class Conversation:
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
 
-        else:
-            return self._transcription_shortened
+        return self._transcription_shortened
 
 
 def load_conversation(file_path: str) -> "Conversation":
