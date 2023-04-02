@@ -248,9 +248,7 @@ class Conversation:
 
         short_transcript = self.shortened_transcript()
 
-        answer = query_fn(
-            short_transcript, query, system_prompt, append_prompt
-        )
+        answer = query_fn(short_transcript, query, system_prompt, append_prompt)
         if print_summary:
             print(answer)
         return answer
