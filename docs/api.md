@@ -13,6 +13,7 @@
         - __init__
         - transcribe
         - diarise
+        - shortened_transcript
         - summarise
         - query
         - save
