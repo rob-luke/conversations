@@ -72,8 +72,12 @@ def _chunk_transcript(transcript: str, chunk_size: int) -> List[str]:
 
 def _sumarise_chunk(chunk: str, model: str, temperature: float) -> str:
     system_prompt = (
-        "You are an AI language model tasked with summarizing the following transcript "
-        "while preserving important information. Please provide a concise summary of the text."
+        "You are a meeting assistant. You have excellent language abilities."
+        "You will take a transcript and shorten the transcript without modifying the meaning of the conversation."
+        "The provided transcript takes the form `Speaker: Utterance`."
+        "You will return a shortened transcript in the same format, but shorten each utterance where possible."
+        "Make sure you retain all key information including action items. dates. numbers, etc."
+        "Try to shorten the overall transcript to half the length."
     )
     messages = [
         {"role": "system", "content": system_prompt},
