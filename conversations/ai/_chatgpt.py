@@ -74,6 +74,7 @@ def _sumarise_chunk(chunk: str, model: str, temperature: float) -> str:
     system_prompt = (
         "You are a meeting assistant. You have excellent language abilities."
         "You will take a transcript and shorten the transcript without modifying the meaning of the conversation."
+        "Shorten the provided transcript by preserving all of the speakers' turns, key information, and specific guidance offered without redundancy."
         "The provided transcript takes the form `Speaker: Utterance`."
         "You will return a shortened transcript in the same format, but shorten each utterance where possible."
         "Make sure you retain all key information including action items. dates. numbers, etc."
@@ -114,7 +115,7 @@ def _shorten_transcript(transcript: str, chunk_size: int = 8192) -> str:
                 "The chunk is too long, consider reducing chunk_size."
             )
 
-        summarized_chunk = _sumarise_chunk(chunk, model="gpt-4", temperature=0.7)
+        summarized_chunk = _sumarise_chunk(chunk, model="gpt-4", temperature=0.1)
         summarized_chunks.append(summarized_chunk)
 
     shortened_transcript = " ".join(summarized_chunks).strip()
