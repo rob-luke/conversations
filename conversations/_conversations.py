@@ -202,16 +202,13 @@ class Conversation:
         summary : str
             The generated summary.
         """
-        if self._transcription_shortened is None:
-            from .ai._chatgpt import _shorten_transcript
-
-            self._transcription_shortened = _shorten_transcript(self.export_text())
+        short_transcript = self.shortened_transcript()
 
         if (self._summary_automated is None) or force:
             from .ai import summarise
 
             self._summary_automated = summarise(
-                self._transcription_shortened,
+                short_transcript,
                 system_prompt,
                 summary_prompt,
                 append_prompt,
@@ -249,17 +246,31 @@ class Conversation:
         """
         from .ai import query as query_fn
 
+        short_transcript = self.shortened_transcript()
+
+        answer = query_fn(short_transcript, query, system_prompt, append_prompt)
+        if print_summary:
+            print(answer)
+        return answer
+
+    def shortened_transcript(self) -> str:
+        """
+        Get the shortened transcript of the conversation.
+
+        This method returns the previously shortened transcript if available.
+        If not, it computes the shortened transcript first and then returns it.
+
+        Returns
+        -------
+        str
+            The shortened transcript of the conversation.
+        """
         if self._transcription_shortened is None:
             from .ai._chatgpt import _shorten_transcript
 
             self._transcription_shortened = _shorten_transcript(self.export_text())
 
-        answer = query_fn(
-            self._transcription_shortened, query, system_prompt, append_prompt
-        )
-        if print_summary:
-            print(answer)
-        return answer
+        return self._transcription_shortened
 
 
 def load_conversation(file_path: str) -> "Conversation":
