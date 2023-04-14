@@ -122,6 +122,7 @@ def _summarise_chunk(
         f"instructions, advice, names, personal information, and business information. \n\n {chunk}"
     )
     recursive_prompt = (
+        "You shortened the transcript too much. "
         "Please reflect on the shortened transcript and determine if it removed any key advice/guidance/instruction "
         "or information from the original transcript. Please rewrite the shortened "
         "transcript to be longer and include the lost content. "
