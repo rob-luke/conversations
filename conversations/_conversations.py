@@ -253,7 +253,9 @@ class Conversation:
             print(answer)
         return answer
 
-    def shortened_transcript(self, chunk_num_tokens: int = 7372, shorten_iterations: int = 2) -> str:
+    def shortened_transcript(
+        self, chunk_num_tokens: int = 7372, shorten_iterations: int = 2
+    ) -> str:
         """
         Get the shortened transcript of the conversation.
 
@@ -276,7 +278,9 @@ class Conversation:
         if self._transcription_shortened is None:
             from .ai._shorten_transcript import _shorten_transcript
 
-            self._transcription_shortened = _shorten_transcript(self.export_text(), chunk_num_tokens, shorten_iterations)
+            self._transcription_shortened = _shorten_transcript(
+                self.export_text(), chunk_num_tokens, shorten_iterations
+            )
 
         return self._transcription_shortened
 
