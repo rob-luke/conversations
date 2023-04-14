@@ -253,12 +253,20 @@ class Conversation:
             print(answer)
         return answer
 
-    def shortened_transcript(self) -> str:
+    def shortened_transcript(self, chunk_num_tokens: int = 7372, shorten_iterations: int = 2) -> str:
         """
         Get the shortened transcript of the conversation.
 
         This method returns the previously shortened transcript if available.
         If not, it computes the shortened transcript first and then returns it.
+
+        Parameters
+        ----------
+        chunk_num_tokens : int
+            The number of tokens to use for each chunk.
+            The default is 7372, which is 90% of the 8k model limit.
+        shorten_iterations : int
+            The number of iterations to use when shortening the transcript.
 
         Returns
         -------
@@ -268,7 +276,7 @@ class Conversation:
         if self._transcription_shortened is None:
             from .ai._shorten_transcript import _shorten_transcript
 
-            self._transcription_shortened = _shorten_transcript(self.export_text())
+            self._transcription_shortened = _shorten_transcript(self.export_text(), chunk_num_tokens, shorten_iterations)
 
         return self._transcription_shortened
 
