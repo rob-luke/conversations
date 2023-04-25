@@ -6,7 +6,10 @@ import whisper
 
 
 def process(
-    audio_file: Path, model_name: str = "base.en", prompt: str | None = None, language: str = "en"
+    audio_file: Path,
+    model_name: str = "base.en",
+    prompt: str | None = None,
+    language: str = "en",
 ) -> Dict[str, str]:
     """Transcribe audio using Whisper.
 
@@ -30,11 +33,15 @@ def process(
     if model_name == "openai.en":
         result = _cloud_whisper(audio_file, prompt=prompt, language=language)
     else:
-        result = _local_whisper(audio_file, model_name=model_name, prompt=prompt, language=language)
+        result = _local_whisper(
+            audio_file, model_name=model_name, prompt=prompt, language=language
+        )
     return result
 
 
-def _cloud_whisper(audio_file: Path, prompt: str | None = None, language: str = "en") -> Dict[str, str]:
+def _cloud_whisper(
+    audio_file: Path, prompt: str | None = None, language: str = "en"
+) -> Dict[str, str]:
     """Transcribe audio using OpenAI's Whisper API.
 
     Parameters
@@ -58,7 +65,11 @@ def _cloud_whisper(audio_file: Path, prompt: str | None = None, language: str = 
             )
         else:
             result = openai.Audio.transcribe(
-                "whisper-1", audio, response_format="verbose_json", prompt=prompt, language=language
+                "whisper-1",
+                audio,
+                response_format="verbose_json",
+                prompt=prompt,
+                language=language,
             )
 
     return result

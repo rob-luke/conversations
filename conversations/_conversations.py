@@ -166,7 +166,10 @@ class Conversation:
             from .transcribe import whisper
 
             self._transcription = whisper.process(
-                audio_file=self._recording, model_name=model, prompt=prompt, language=language
+                audio_file=self._recording,
+                model_name=model,
+                prompt=prompt,
+                language=language,
             )
         else:
             raise NotImplementedError(
