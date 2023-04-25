@@ -111,7 +111,8 @@ class Conversation:
         self,
         method: str = "whisper",
         model: str = "medium.en",
-        prompt: str | None = None,
+        prompt: str | None = " - How are you? - I'm fine, thank you.",
+        language: str = "en",
     ):
         """
         Transcribe a conversation using the specified method and model.
@@ -125,6 +126,8 @@ class Conversation:
             medium, tiny.en, base.en, small.en, medium.en, and openai.en. Defaults to "medium.en".
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
+        language : str, optional
+            The language of the conversation, defaults to "en".
 
         Returns
         -------
@@ -163,7 +166,7 @@ class Conversation:
             from .transcribe import whisper
 
             self._transcription = whisper.process(
-                audio_file=self._recording, model_name=model, prompt=prompt
+                audio_file=self._recording, model_name=model, prompt=prompt, language=language
             )
         else:
             raise NotImplementedError(
