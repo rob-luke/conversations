@@ -5,7 +5,12 @@ import openai
 import whisper
 
 
-def process(audio_file: Path, model_name: str = "base.en") -> Dict[str, str]:
+def process(
+    audio_file: Path,
+    model_name: str = "base.en",
+    prompt: str | None = None,
+    language: str = "en",
+) -> Dict[str, str]:
     """Transcribe audio using Whisper.
 
     Parameters
@@ -15,6 +20,10 @@ def process(audio_file: Path, model_name: str = "base.en") -> Dict[str, str]:
     model_name : str, optional
         Name of the whisper model to use. To use the cloud service
         provided by OpenAI, use "openai.en", by default "base.en".
+    prompt : str, optional
+        Prompt to use for the transcription, by default None.
+    language : str, optional
+        Language to use for the transcription, by default "en".
 
     Returns
     -------
@@ -22,19 +31,27 @@ def process(audio_file: Path, model_name: str = "base.en") -> Dict[str, str]:
         Dictionary containing the audio transcript in whisper format.
     """
     if model_name == "openai.en":
-        result = _cloud_whisper(audio_file)
+        result = _cloud_whisper(audio_file, prompt=prompt, language=language)
     else:
-        result = _local_whisper(audio_file, model_name=model_name)
+        result = _local_whisper(
+            audio_file, model_name=model_name, prompt=prompt, language=language
+        )
     return result
 
 
-def _cloud_whisper(audio_file: Path) -> Dict[str, str]:
+def _cloud_whisper(
+    audio_file: Path, prompt: str | None = None, language: str = "en"
+) -> Dict[str, str]:
     """Transcribe audio using OpenAI's Whisper API.
 
     Parameters
     ----------
     audio_file : Path
         Path to the audio file.
+    prompt : str, optional
+        Prompt to use for the transcription, by default None.
+    language : str, optional
+        Language to use for the transcription, by default "en".
 
     Returns
     -------
@@ -42,9 +59,19 @@ def _cloud_whisper(audio_file: Path) -> Dict[str, str]:
         Dictionary containing the audio transcript in whisper format.
     """
     with audio_file.open("rb") as audio:
-        result = openai.Audio.transcribe(
-            "whisper-1", audio, response_format="verbose_json"
-        )
+        if prompt is None:
+            result = openai.Audio.transcribe(
+                "whisper-1", audio, response_format="verbose_json"
+            )
+        else:
+            result = openai.Audio.transcribe(
+                "whisper-1",
+                audio,
+                response_format="verbose_json",
+                prompt=prompt,
+                language=language,
+            )
+
     return result
 
 
@@ -52,6 +79,8 @@ def _local_whisper(
     audio_file: Path,
     model_name: str = "base.en",
     device: str = "cpu",
+    prompt: str | None = None,
+    language: str = "en",
 ) -> Dict[str, str]:
     """Transcribe audio using a local Whisper model.
 
@@ -64,6 +93,10 @@ def _local_whisper(
         and "large.en", by default "base.en".
     device : str, optional
         The device on which to run the model, either "cpu" or "gpu", by default "cpu".
+    prompt : str, optional
+        Prompt to use for the transcription, by default None.
+    language : str, optional
+        Language to use for the transcription, by default "en".
 
     Returns
     -------
@@ -72,5 +105,5 @@ def _local_whisper(
     """
     model = whisper.load_model(model_name, device=device)
     audio = whisper.load_audio(str(audio_file))
-    result = model.transcribe(audio)
+    result = model.transcribe(audio, prompt=prompt, language=language)
     return result

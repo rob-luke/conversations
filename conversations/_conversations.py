@@ -107,19 +107,74 @@ class Conversation:
         created_timestamp = os.path.getmtime(file_path)
         return datetime.fromtimestamp(created_timestamp, timezone.utc)
 
-    def transcribe(self, method: str = "whisper", model: str = "medium.en"):
-        """Transcribe a conversation."""
-        from .transcribe import whisper
+    def transcribe(
+        self,
+        method: str = "whisper",
+        model: str = "medium.en",
+        prompt: str | None = " - How are you? - I'm fine, thank you.",
+        language: str = "en",
+    ):
+        """
+        Transcribe a conversation using the specified method and model.
 
+        Parameters
+        ----------
+        method : str, optional
+            The transcription method to use, defaults to "whisper".
+        model : str, optional
+            The model to be used for transcription, must be one of tiny, base, small, large,
+            medium, tiny.en, base.en, small.en, medium.en, and openai.en. Defaults to "medium.en".
+        prompt : str, None, optional
+            An optional prompt to be used for transcription, defaults to None.
+        language : str, optional
+            The language of the conversation, defaults to "en".
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        RuntimeError
+            If the conversation has already been transcribed.
+        ValueError
+            If an invalid model name is provided.
+        NotImplementedError
+            If the method is not supported.
+        """
         if self._transcription is not None:
-            print(
-                "The conversation has already been transcribed. Skipping transcription."
-            )
-            return
+            raise RuntimeError("The conversation has already been transcribed.")
 
-        self._transcription = whisper.process(
-            audio_file=self._recording, model_name=model
-        )
+        available_models = [
+            "tiny",
+            "base",
+            "small",
+            "large",
+            "medium",
+            "tiny.en",
+            "base.en",
+            "small.en",
+            "medium.en",
+            "openai.en",
+        ]
+        if model not in available_models:
+            raise ValueError(
+                f"Invalid model '{model}'. Must be one of {available_models}."
+            )
+
+        if method == "whisper":
+            from .transcribe import whisper
+
+            self._transcription = whisper.process(
+                audio_file=self._recording,
+                model_name=model,
+                prompt=prompt,
+                language=language,
+            )
+        else:
+            raise NotImplementedError(
+                f"Transcription method '{method}' is not supported."
+            )
 
     def diarise(self, method: str = "simple"):
         """Diarise a conversation."""

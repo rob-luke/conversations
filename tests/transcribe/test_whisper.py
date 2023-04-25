@@ -36,3 +36,19 @@ def test_match_local_and_cloud_process():
     cloud_result = whisper.process(audio_file=Path(audio_file), model_name="openai.en")
     assert "million" in local_result["segments"][0]["text"]
     assert "million" in cloud_result["segments"][0]["text"]
+
+
+def test_prompting():
+    """Test that local and cloud processing return the same results."""
+    local_result = whisper.process(
+        audio_file=Path(audio_file),
+        model_name="tiny.en",
+        prompt="This is a test prompt.",
+    )
+    cloud_result = whisper.process(
+        audio_file=Path(audio_file),
+        model_name="openai.en",
+        prompt="This is a test prompt.",
+    )
+    assert "million" in local_result["segments"][0]["text"]
+    assert "million" in cloud_result["segments"][0]["text"]
