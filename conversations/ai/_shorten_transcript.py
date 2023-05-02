@@ -26,7 +26,9 @@ def _shorten_transcript(
     num_tokens = _num_tokens_from_messages(
         _content_to_message(transcript), model="gpt-4"
     )
-    print(f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens.")
+    print(
+        f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
+    )
     if num_tokens <= chunk_num_tokens:
         print("Transcript is short enough, returning as is...")
         return transcript
