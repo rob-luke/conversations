@@ -26,6 +26,9 @@ def _shorten_transcript(
     num_tokens = _num_tokens_from_messages(
         _content_to_message(transcript), model="gpt-4"
     )
+    print(
+        f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
+    )
     if num_tokens <= chunk_num_tokens:
         print("Transcript is short enough, returning as is...")
         return transcript
@@ -36,7 +39,7 @@ def _shorten_transcript(
     for chunk in chunks:
         print(f"Summarizing chunk of {len(chunk)} characters...")
         summarized_chunk = _summarise_chunk(
-            chunk, model="gpt-4", temperature=0.1, iterations=shorten_iterations
+            chunk, model="gpt-4", temperature=0.0, iterations=shorten_iterations
         )
         summarized_chunks.append(summarized_chunk)
 
@@ -44,6 +47,7 @@ def _shorten_transcript(
     num_tokens_shortened = _num_tokens_from_messages(
         _content_to_message(shortened_transcript), model="gpt-4"
     )
+    print(f"The shortened transcript has {num_tokens_shortened} tokens.")
 
     if num_tokens_shortened > 8192:
         print("Shortened transcript is still too long, reducing chunk size...")
