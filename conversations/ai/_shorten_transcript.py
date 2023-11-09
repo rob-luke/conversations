@@ -5,7 +5,7 @@ from ._chatgpt import _num_tokens_from_messages, _content_to_message
 
 
 def _shorten_transcript(
-    transcript: str, chunk_num_tokens: int = 8192, shorten_iterations: int = 2
+    transcript: str, chunk_num_tokens: int = 128000, shorten_iterations: int = 2
 ) -> str:
     """Shorten a transcript using GPT-4.
 
@@ -13,7 +13,7 @@ def _shorten_transcript(
     ----------
     transcript : str
         The transcript to shorten.
-    chunk_num_tokens : int, default=8192
+    chunk_num_tokens : int, default=128000
         The number of tokens to use for each chunk.
     shorten_iterations : int, default=2
         The number of iterations to use for shortening each chunk.
@@ -24,7 +24,7 @@ def _shorten_transcript(
         The shortened transcript.
     """
     num_tokens = _num_tokens_from_messages(
-        _content_to_message(transcript), model="gpt-4"
+        _content_to_message(transcript), model="gpt-4-1106-preview"
     )
     print(
         f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
@@ -39,31 +39,31 @@ def _shorten_transcript(
     for chunk in chunks:
         print(f"Summarizing chunk of {len(chunk)} characters...")
         summarized_chunk = _summarise_chunk(
-            chunk, model="gpt-4", temperature=0.0, iterations=shorten_iterations
+            chunk, model="gpt-4-1106-preview", temperature=0.0, iterations=shorten_iterations
         )
         summarized_chunks.append(summarized_chunk)
 
     shortened_transcript = "\n\n".join(summarized_chunks)
     num_tokens_shortened = _num_tokens_from_messages(
-        _content_to_message(shortened_transcript), model="gpt-4"
+        _content_to_message(shortened_transcript), model="gpt-4-1106-preview"
     )
     print(f"The shortened transcript has {num_tokens_shortened} tokens.")
 
-    if num_tokens_shortened > 8192:
+    if num_tokens_shortened > chunk_num_tokens:
         print("Shortened transcript is still too long, reducing chunk size...")
         return _shorten_transcript(transcript, chunk_num_tokens=chunk_num_tokens)
 
     return shortened_transcript
 
 
-def _chunk_transcript(transcript: str, chunk_token_limit: int = 8192) -> List[str]:
+def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[str]:
     """Split a transcript into chunks of a given token limit.
 
     Parameters
     ----------
     transcript : str
         The transcript to split.
-    chunk_token_limit : int, default=8192
+    chunk_token_limit : int, default=128000
         The number of tokens to use for each chunk.
 
     Returns
@@ -72,7 +72,7 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 8192) -> List[st
         The list of chunks.
     """
     if (
-        _num_tokens_from_messages(_content_to_message(transcript), model="gpt-4")
+        _num_tokens_from_messages(_content_to_message(transcript), model="gpt-4-1106-preview")
         <= chunk_token_limit
     ):
         print("Transcript is short enough, returning as is...")
