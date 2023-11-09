@@ -5,7 +5,7 @@ from ._chatgpt import _num_tokens_from_messages, _content_to_message
 
 
 def _shorten_transcript(
-    transcript: str, chunk_num_tokens: int = 8192, shorten_iterations: int = 2
+    transcript: str, desired_transcript_tokens: int = 7372, chunk_num_tokens: int = 2048, shorten_iterations: int = 2
 ) -> str:
     """Shorten a transcript using GPT-4.
 
@@ -13,8 +13,10 @@ def _shorten_transcript(
     ----------
     transcript : str
         The transcript to shorten.
-    chunk_num_tokens : int, default=8192
-        The number of tokens to use for each chunk.
+    desired_transcript_tokens : int, default=7372
+        The desired number of tokens for the transcript.
+    chunk_num_tokens : int, default=2048
+        The number of tokens to use for each chunk when .
     shorten_iterations : int, default=2
         The number of iterations to use for shortening each chunk.
 
@@ -27,9 +29,9 @@ def _shorten_transcript(
         _content_to_message(transcript), model="gpt-4"
     )
     print(
-        f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
+        f"The transcript has {num_tokens} tokens. The desired token length is {desired_transcript_tokens} tokens."
     )
-    if num_tokens <= chunk_num_tokens:
+    if num_tokens <= desired_transcript_tokens:
         print("Transcript is short enough, returning as is...")
         return transcript
 

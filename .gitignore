@@ -136,3 +136,4 @@ pretrained_models/
 
 # Ignore pycharm files
 .idea/
+.aider*
