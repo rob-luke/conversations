@@ -6,6 +6,7 @@ from openai import OpenAI
 
 client = OpenAI()
 
+
 class ChunkTooLongError(Exception):
     """Raised when a chunk is too long for the model."""
 
@@ -278,4 +279,4 @@ def query(
     response = client.chat.completion.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
-    return response,choices[0].message.content
+    return response, choices[0].message.content
