@@ -11,7 +11,7 @@ class ChunkTooLongError(Exception):
     pass
 
 
-def _num_tokens_from_messages(messages, model="gpt-4"):
+def _num_tokens_from_messages(messages, model="gpt-4-1106-preview"):
     """Return the number of tokens used by a list of messages.
 
     Parameters
@@ -19,7 +19,7 @@ def _num_tokens_from_messages(messages, model="gpt-4"):
     messages : List[dict]
         A list of message dictionaries.
     model : str, optional
-        The model to use for tokenization, defaults to "gpt-4".
+        The model to use for tokenization, defaults to "gpt-4-1106-preview".
 
     Returns
     -------
@@ -37,6 +37,11 @@ def _num_tokens_from_messages(messages, model="gpt-4"):
         )
         return _num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301")
     elif model == "gpt-4":
+        print(
+            "Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314."
+        )
+        return _num_tokens_from_messages(messages, model="gpt-4-0314")
+    elif model == "gpt-4-1106-preview":
         print(
             "Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314."
         )
@@ -225,7 +230,7 @@ def summarise(
     ]
 
     response = openai.ChatCompletion.create(
-        model="gpt-4", temperature=0.7, messages=messages
+        model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
     return response["choices"][0]["message"]["content"]
 
@@ -270,6 +275,6 @@ def query(
     ]
 
     response = openai.ChatCompletion.create(
-        model="gpt-4", temperature=0.7, messages=messages
+        model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
     return response["choices"][0]["message"]["content"]
