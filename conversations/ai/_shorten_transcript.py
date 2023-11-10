@@ -39,7 +39,10 @@ def _shorten_transcript(
     for chunk in chunks:
         print(f"Summarizing chunk of {len(chunk)} characters...")
         summarized_chunk = _summarise_chunk(
-            chunk, model="gpt-4-1106-preview", temperature=0.0, iterations=shorten_iterations
+            chunk,
+            model="gpt-4-1106-preview",
+            temperature=0.0,
+            iterations=shorten_iterations,
         )
         summarized_chunks.append(summarized_chunk)
 
