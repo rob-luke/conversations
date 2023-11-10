@@ -231,7 +231,7 @@ def summarise(
         {"role": "user", "content": summary_prompt},
     ]
 
-    response = client.chat.completion.create(
+    response = client.chat.completions.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
     return response.choices[0].message.content
@@ -276,7 +276,7 @@ def query(
         {"role": "user", "content": query_prompt},
     ]
 
-    response = client.chat.completion.create(
+    response = client.chat.completions.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
     return response, choices[0].message.content

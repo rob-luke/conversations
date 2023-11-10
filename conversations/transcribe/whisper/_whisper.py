@@ -1,8 +1,10 @@
 from pathlib import Path
 from typing import Dict
 
-import openai
+from openai import OpenAI
 import whisper
+
+client = OpenAI()
 
 
 def process(
@@ -60,11 +62,11 @@ def _cloud_whisper(
     """
     with audio_file.open("rb") as audio:
         if prompt is None:
-            result = openai.Audio.transcribe(
+            result = client.audio.transcriptions.create(
                 "whisper-1", audio, response_format="verbose_json"
             )
         else:
-            result = openai.Audio.transcribe(
+            result = client.audio.transcriptions.create(
                 "whisper-1",
                 audio,
                 response_format="verbose_json",

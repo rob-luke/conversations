@@ -145,7 +145,7 @@ def _summarise_chunk(
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": first_prompt},
     ]
-    response = client.chat.completion.create(
+    response = client.chat.completions.create(
         model=model, temperature=temperature, messages=messages
     )
     responses = [response.choices[0].message.content]
@@ -155,7 +155,7 @@ def _summarise_chunk(
             print(f"Computing recursive shortening pass {recursive_iter + 1}...")
             messages.append({"role": "assistant", "content": responses[-1]})
             messages.append({"role": "user", "content": recursive_prompt})
-            response = client.chat.completion.create(
+            response = client.chat.completions.create(
                 model=model, temperature=temperature, messages=messages
             )
             responses.append(response.choices[0].message.content)
