@@ -1,9 +1,10 @@
 """ChatGPT based AI for conversations."""
 
 from typing import List, Optional
-import openai
 import tiktoken
+from openai import OpenAI
 
+client = OpenAI()
 
 class ChunkTooLongError(Exception):
     """Raised when a chunk is too long for the model."""
@@ -229,10 +230,10 @@ def summarise(
         {"role": "user", "content": summary_prompt},
     ]
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completion.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
 
 
 def query(
@@ -274,7 +275,7 @@ def query(
         {"role": "user", "content": query_prompt},
     ]
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completion.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages
     )
-    return response["choices"][0]["message"]["content"]
+    return response,choices[0].message.content

@@ -1,7 +1,9 @@
 # Description: Shorten transcript using GPT-4
 from typing import List
-import openai
 from ._chatgpt import _num_tokens_from_messages, _content_to_message
+from openai import OpenAI
+
+client = OpenAI()
 
 
 def _shorten_transcript(
@@ -143,19 +145,19 @@ def _summarise_chunk(
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": first_prompt},
     ]
-    response = openai.ChatCompletion.create(
+    response = client.chat.completion.create(
         model=model, temperature=temperature, messages=messages
     )
-    responses = [response["choices"][0]["message"]["content"]]
+    responses = [response.choices[0].message,content]
 
     if iterations > 1:
         for recursive_iter in range(iterations - 1):
             print(f"Computing recursive shortening pass {recursive_iter + 1}...")
             messages.append({"role": "assistant", "content": responses[-1]})
             messages.append({"role": "user", "content": recursive_prompt})
-            response = openai.ChatCompletion.create(
+            response = client.chat.completion.create(
                 model=model, temperature=temperature, messages=messages
             )
-            responses.append(response["choices"][0]["message"]["content"])
+            responses.append(response.choices[0].message.content)
 
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0]message.content
