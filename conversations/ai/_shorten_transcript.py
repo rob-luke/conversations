@@ -148,7 +148,7 @@ def _summarise_chunk(
     response = client.chat.completion.create(
         model=model, temperature=temperature, messages=messages
     )
-    responses = [response.choices[0].message,content]
+    responses = [response.choices[0].message.content]
 
     if iterations > 1:
         for recursive_iter in range(iterations - 1):
