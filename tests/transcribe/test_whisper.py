@@ -2,6 +2,7 @@ from conversations.transcribe import whisper
 from pathlib import Path
 from typing import Dict
 import pooch
+from openai.types.audio import Transcription
 
 
 audio_file = pooch.retrieve(
@@ -13,7 +14,7 @@ audio_file = pooch.retrieve(
 def test_local_process():
     """Test whisper processing of audio."""
     result = whisper.process(audio_file=Path(audio_file))
-    assert isinstance(result, Dict)
+    assert isinstance(result, dict)
     for seg in result["segments"]:
         assert "start" in seg
         assert "end" in seg
@@ -23,7 +24,7 @@ def test_local_process():
 def test_cloud_process():
     """Test whisper processing of audio via api."""
     result = whisper.process(audio_file=Path(audio_file), model_name="openai.en")
-    assert isinstance(result, Dict)
+    assert isinstance(result, dict)
     for seg in result["segments"]:
         assert "start" in seg
         assert "end" in seg

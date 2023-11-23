@@ -1,5 +1,5 @@
 # Description: Shorten transcript using GPT-4
-from typing import List
+from typing import List, Optional
 from ._chatgpt import _num_tokens_from_messages, _content_to_message
 from openai import OpenAI
 
@@ -48,7 +48,7 @@ def _shorten_transcript(
         )
         summarized_chunks.append(summarized_chunk)
 
-    shortened_transcript = "\n\n".join(summarized_chunks)
+    shortened_transcript = "\n\n".join(summarized_chunks)  # type: ignore
     num_tokens_shortened = _num_tokens_from_messages(
         _content_to_message(shortened_transcript), model="gpt-4-1106-preview"
     )
@@ -98,7 +98,7 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[
 
 def _summarise_chunk(
     chunk: str, model: str, temperature: float, iterations: int = 2
-) -> str:
+) -> Optional[str]:
     """Summarise a chunk of text using GPT-4.
 
     Parameters
@@ -146,17 +146,17 @@ def _summarise_chunk(
         {"role": "user", "content": first_prompt},
     ]
     response = client.chat.completions.create(
-        model=model, temperature=temperature, messages=messages
+        model=model, temperature=temperature, messages=messages  # type: ignore
     )
     responses = [response.choices[0].message.content]
 
     if iterations > 1:
         for recursive_iter in range(iterations - 1):
             print(f"Computing recursive shortening pass {recursive_iter + 1}...")
-            messages.append({"role": "assistant", "content": responses[-1]})
+            messages.append({"role": "assistant", "content": responses[-1]})  # type: ignore
             messages.append({"role": "user", "content": recursive_prompt})
             response = client.chat.completions.create(
-                model=model, temperature=temperature, messages=messages
+                model=model, temperature=temperature, messages=messages  # type: ignore
             )
             responses.append(response.choices[0].message.content)
 

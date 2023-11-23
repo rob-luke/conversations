@@ -60,21 +60,20 @@ def _cloud_whisper(
     transcript : Dict[str, str]
         Dictionary containing the audio transcript in whisper format.
     """
-    with audio_file.open("rb") as audio:
-        if prompt is None:
-            result = client.audio.transcriptions.create(
-                "whisper-1", audio, response_format="verbose_json"
-            )
-        else:
-            result = client.audio.transcriptions.create(
-                "whisper-1",
-                audio,
-                response_format="verbose_json",
-                prompt=prompt,
-                language=language,
-            )
+    if prompt is None:
+        result = client.audio.transcriptions.create(
+            file=audio_file, model="whisper-1", response_format="verbose_json"  
+        )
+    else:
+        result = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=audio_file,
+            response_format="verbose_json",
+            prompt=prompt,
+            language=language,
+        )
 
-    return result
+    return result.model_dump()
 
 
 def _local_whisper(
