@@ -1,8 +1,10 @@
 """ChatGPT based AI for conversations."""
 
 from typing import List, Optional
-import openai
 import tiktoken
+from openai import OpenAI
+
+client = OpenAI()
 
 
 class ChunkTooLongError(Exception):
@@ -229,10 +231,10 @@ def summarise(
         {"role": "user", "content": summary_prompt},
     ]
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4-1106-preview", temperature=0.3, messages=messages
+    response = client.chat.completions.create(
+        model="gpt-4-1106-preview", temperature=0.3, messages=messages  # type: ignore
     )
-    return response["choices"][0]["message"]["content"]
+    return str(response.choices[0].message.content)
 
 
 def query(
@@ -242,7 +244,7 @@ def query(
     append_prompt: Optional[
         str
     ] = "Format your response as text and do not use markdown.",
-) -> str:
+) -> Optional[str]:
     """Generate a response to a query using the GPT model based on the given meeting transcript.
 
     Parameters
@@ -274,7 +276,7 @@ def query(
         {"role": "user", "content": query_prompt},
     ]
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4-1106-preview", temperature=0.3, messages=messages
+    response = client.chat.completions.create(
+        model="gpt-4-1106-preview", temperature=0.3, messages=messages  # type: ignore
     )
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
