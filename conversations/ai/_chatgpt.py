@@ -234,7 +234,7 @@ def summarise(
     response = client.chat.completions.create(
         model="gpt-4-1106-preview", temperature=0.3, messages=messages  # type: ignore
     )
-    return response.choices[0].message.content  # type: ignore
+    return str(response.choices[0].message.content)
 
 
 def query(
