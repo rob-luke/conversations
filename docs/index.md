@@ -13,7 +13,7 @@ conveyed not just through language,
 but also through key acoustic features like loudness, intonation, and speech rate,
 this package brings forth an indispensable tool for understanding and
 interpreting the wealth of information embedded in everyday exchanges.
-`Conversations` enables you to analyze and comprehend
+`Conversations` enables you to analyse and comprehend
 the complex world of human interaction.
 
 ## Documentation
