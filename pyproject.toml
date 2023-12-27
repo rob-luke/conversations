@@ -55,7 +55,7 @@ dependencies = [
   "pydocstyle",
   "pytest",
   "pytest-cov",
-  "python-semantic-release",
+  "python-semantic-release==7.33.3",
   "openai-whisper",
 ]
 
