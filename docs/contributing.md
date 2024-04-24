@@ -39,12 +39,12 @@ a variety of standards are utilised in this project.
 ### Running Tests Locally
 
 - Ensure you have hatch installed:
-    - `pip install --upgrade hatch`
+  - `pip install --upgrade hatch`
 - To run tests locally, execute:
-    - `hatch run cov`
+  - `hatch run cov`
 - If you have modified the environment
-    - List the environments using `hatch env show --ascii`
-    - To remove all environments and start fresh `hatch env prune`
+  - List the environments using `hatch env show --ascii`
+  - To remove all environments and start fresh `hatch env prune`
 
 #### Troubleshooting
 
