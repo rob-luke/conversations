@@ -35,3 +35,17 @@ a variety of standards are utilised in this project.
   with the [mkdocsstrings](https://mkdocstrings.github.io)
   extension and [material](https://squidfunk.github.io/mkdocs-material/)
   theme.
+
+### Running Tests Locally
+
+- Ensure you have hatch installed:
+  - `pip install --upgrade hatch`
+- To run tests locally, execute:
+  - `hatch run cov`
+- If you have modified the environment
+  - List the environments using `hatch env show --ascii`
+  - To remove all environments and start fresh `hatch env prune`
+
+#### Troubleshooting
+
+- On a Mac, you may need to brew install xv and ffmpeg.
