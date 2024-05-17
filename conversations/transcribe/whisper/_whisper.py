@@ -66,7 +66,7 @@ def _cloud_whisper(
         )
     else:
         result = client.audio.transcriptions.create(
-            model="whisper-1",
+            model="whisper-3",
             file=audio_file,
             response_format="verbose_json",
             prompt=prompt,
