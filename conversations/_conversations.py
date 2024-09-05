@@ -22,7 +22,7 @@ class Conversation:
     def __init__(
         self,
         recording: Path,
-        num_speakers: int = 2,
+        num_speakers: int = 0,
         reload: bool = True,
         speaker_mapping: Optional[Dict[str, str]] = None,
         meeting_datetime: Optional[datetime] = None,
@@ -39,7 +39,7 @@ class Conversation:
         recording : pathlib.Path
             Path to the conversation recording.
         num_speakers : int
-            The number of speakers in the conversation.
+            The number of speakers in the conversation, defaulting to 0 if unknown.
         reload : bool
             If True, try to load an existing saved conversation with the default filename.
             If False, create a new Conversation instance.
@@ -90,13 +90,13 @@ class Conversation:
                 print(f"- {attendee}")
 
         # Set num_speakers based on attendees if not provided
-        if num_speakers is None and attendees is not None:
+        if num_speakers == 0 and attendees is not None:
             self._num_speakers = len(attendees)
         else:
             self._num_speakers = num_speakers
 
         # Verify that num_speakers is equal to the number of attendees
-        if num_speakers is not None and attendees is not None:
+        if num_speakers > 0 and attendees is not None:
             if num_speakers != len(attendees):
                 raise ValueError(
                     "The number of speakers must match the number of attendees."
