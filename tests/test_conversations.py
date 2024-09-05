@@ -145,7 +145,7 @@ def test_meeting_datetime():
 def test_attendees():
     attendees = ["Alice", "Bob", "Charlie"]
     conv_with_attendees = Conversation(
-        recording=audio_file, attendees=attendees, reload=False, num_speakers=None
+        recording=audio_file, attendees=attendees, reload=False
     )
     assert conv_with_attendees._attendees == attendees
     assert conv_with_attendees._num_speakers == len(attendees)
