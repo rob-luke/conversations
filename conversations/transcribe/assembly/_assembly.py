@@ -2,16 +2,16 @@ from pathlib import Path
 from typing import Dict
 import os
 
-import assemblyai as aai
+import assemblyai as aai  # type: ignore
 
 # Load environmental variable for API key
+print(f"{os.getenv('ASSEMBLYAI_API_KEY')}")
 aai.settings.api_key = f"{os.getenv('ASSEMBLYAI_API_KEY')}"
 
 
 def process(
     audio_file: Path,
     model_name: str = "nano",
-    prompt: str | None = None,
     language: str = "en",
 ) -> Dict[str, str]:
     """Transcribe audio using Whisper.
@@ -21,10 +21,8 @@ def process(
     audio_file : Path
         Path to the audio file.
     model_name : str, optionalππ
-        Name of the whisper model to use. To use the cloud service
-        provided by OpenAI, use "openai.en", by default "base.en".
-    prompt : str, optional
-        Prompt to use for the transcription, by default None.
+        Name of the assembly model to use. To use the cloud service
+        provided by Assembly, use "nano" or "best".
     language : str, optional
         Language to use for the transcription, by default "en".
 
@@ -47,7 +45,7 @@ def process(
 
     config = aai.TranscriptionConfig(
         speech_model=speech_model,
-        language_code="en",
+        language_code=language,
         word_boost=["robert", "venture"],
         boost_param="default",
         filter_profanity=False,

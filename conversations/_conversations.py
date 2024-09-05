@@ -109,8 +109,8 @@ class Conversation:
 
     def transcribe(
         self,
-        method: str = "whisper",
-        model: str = "medium.en",
+        method: str = "assembly",
+        model: str = "nano",
         prompt: str | None = " - How are you? - I'm fine, thank you.",
         language: str = "en",
     ):
@@ -120,10 +120,12 @@ class Conversation:
         Parameters
         ----------
         method : str, optional
-            The transcription method to use, defaults to "whisper".
+            The transcription method to use, defaults to "assembly".
+            Can be one of whisper or assembly.
         model : str, optional
             The model to be used for transcription, must be one of tiny, base, small, large,
-            medium, tiny.en, base.en, small.en, medium.en, and openai.en. Defaults to "medium.en".
+            medium, tiny.en, base.en, small.en, medium.en, and openai.en, best, nano.
+            Defaults to "nano".
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
         language : str, optional
@@ -156,6 +158,8 @@ class Conversation:
             "small.en",
             "medium.en",
             "openai.en",
+            "nano",
+            "best",
         ]
         if model not in available_models:
             raise ValueError(
@@ -170,6 +174,12 @@ class Conversation:
                 model_name=model,
                 prompt=prompt,
                 language=language,
+            )
+        elif method == "assembly":
+            from .transcribe import assembly
+
+            self._transcription = assembly.process(
+                audio_file=self._recording, model_name=model, language=language
             )
         else:
             raise NotImplementedError(

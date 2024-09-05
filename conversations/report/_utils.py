@@ -57,22 +57,22 @@ def _group_transcript_segements_by_speaker(
     transcript, diarization, seconds_per_segment=20
 ):
     """Group transcript segments by speaker."""
-    speaker_segments = []
-    current_speaker = ""
-    for seg in transcript["segments"]:
-        start = seg["start"]
-        stop = seg["end"]
-        mid_time = start + ((stop - start) / 2)
+    if "speaker" in transcript["segments"][0]:
+        # Already grouped by speaker
+        return transcript
 
-        speaker = _find_current_speaker(mid_time, diarization)
+    else:
+        speaker_segments = []
+        current_speaker = ""
+        for seg in transcript["segments"]:
+            start = seg["start"]
+            stop = seg["end"]
+            mid_time = start + ((stop - start) / 2)
 
-        if speaker != current_speaker:
-            current_speaker = speaker
-            speaker_segments.append(
-                {"speaker": speaker, "text": seg["text"], "start": start, "end": stop}
-            )
-        else:
-            if stop - speaker_segments[-1]["start"] > seconds_per_segment:
+            speaker = _find_current_speaker(mid_time, diarization)
+
+            if speaker != current_speaker:
+                current_speaker = speaker
                 speaker_segments.append(
                     {
                         "speaker": speaker,
@@ -82,7 +82,17 @@ def _group_transcript_segements_by_speaker(
                     }
                 )
             else:
-                speaker_segments[-1]["text"] += " " + seg["text"]
-                speaker_segments[-1]["end"] = stop
+                if stop - speaker_segments[-1]["start"] > seconds_per_segment:
+                    speaker_segments.append(
+                        {
+                            "speaker": speaker,
+                            "text": seg["text"],
+                            "start": start,
+                            "end": stop,
+                        }
+                    )
+                else:
+                    speaker_segments[-1]["text"] += " " + seg["text"]
+                    speaker_segments[-1]["end"] = stop
 
-    return {"segments": speaker_segments}
+        return {"segments": speaker_segments}
