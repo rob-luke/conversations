@@ -181,6 +181,9 @@ class Conversation:
             self._transcription = assembly.process(
                 audio_file=self._recording, model_name=model, language=language
             )
+
+            # by default, we use assembly to diarise the conversation too
+            self._diarisation = "diairisation performed by assembly and transcript contains speaker labels"
         else:
             raise NotImplementedError(
                 f"Transcription method '{method}' is not supported."
