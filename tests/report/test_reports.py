@@ -1,5 +1,5 @@
 from conversations import report
-from conversations.transcribe import whisper
+from conversations.transcribe import assembly
 from conversations.diarise import simple
 from pathlib import Path
 from typing import Dict
@@ -12,8 +12,13 @@ audio_file = pooch.retrieve(
     known_hash="md5:77d8b60c54dffbb74d48c4a65cd59591",
 )
 
-transcript = whisper.process(audio_file=audio_file)
-diarisation = simple.process(audio_file=audio_file, num_speakers=3)
+transcript = assembly.process(audio_file=audio_file)
+# diarisation = simple.process(audio_file=audio_file, num_speakers=3)
+diarisation = [
+    {
+        "note": "diairisation performed by assembly and transcript contains speaker labels"
+    }
+]
 
 
 def test_report_without_audiofile():
@@ -39,7 +44,7 @@ def test_report_with_mapping():
     html_report = report.generate(
         transcript=transcript,
         audio_file=audio_file,
-        speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"},
+        speaker_mapping={"A": "Alice", "B": "Bob", "C": "Sam"},
     )
     assert isinstance(html_report, dominate.document)
 
@@ -51,7 +56,7 @@ def test_text_export():
     """Test report generation."""
     text_report = report.export_text(
         transcript=transcript,
-        speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"},
+        speaker_mapping={"A": "Alice", "B": "Bob", "C": "Sam"},
         diarisation=diarisation,
     )
     assert isinstance(text_report, str)

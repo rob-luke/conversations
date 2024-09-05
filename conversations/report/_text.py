@@ -51,6 +51,8 @@ def export_text(
 
     if speaker_mapping is not None:
         transcript = _map_speaker_names(transcript, speaker_mapping)
+    else:
+        speaker_mapping = {}
 
     doc = ""
 
@@ -63,7 +65,7 @@ def export_text(
     print("\n\n")
 
     for seg in transcript["segments"]:
-        speaker = _get_segement_speaker(seg)
+        speaker = _get_segement_speaker(seg, speaker_mapping)
 
         if diarisation is not None:
             if speaker != previous_speaker:

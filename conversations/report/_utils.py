@@ -27,10 +27,14 @@ def _map_speaker_names(transcript: dict, speaker_mapping: dict) -> dict:
     return {"segments": mapped_segments}
 
 
-def _get_segement_speaker(segment) -> str:
+def _get_segement_speaker(segment, speaker_mapping: dict) -> str:
     """Get speaker label from segment."""
     if "speaker" in segment:
-        return segment["speaker"]
+        speaker_name = segment["speaker"]
+        if speaker_name in speaker_mapping:
+            speaker_name = speaker_mapping[speaker_name]
+
+        return speaker_name
     else:
         return "unknown"
 

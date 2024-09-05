@@ -183,7 +183,11 @@ class Conversation:
             )
 
             # by default, we use assembly to diarise the conversation too
-            self._diarisation = "diairisation performed by assembly and transcript contains speaker labels"
+            self._diarisation = [
+                {
+                    "note": "diairisation performed by assembly and transcript contains speaker labels"
+                }
+            ]
         else:
             raise NotImplementedError(
                 f"Transcription method '{method}' is not supported."
