@@ -3,4 +3,4 @@
 # SPDX-FileCopyrightText: 2022-present Robert Luke <code@robertluke.net>
 #
 # SPDX-License-Identifier: MIT
-__version__ = "0.35.1"
+__version__ = "0.36.0"
