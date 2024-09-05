@@ -19,6 +19,7 @@ def test_local_process():
         assert "start" in seg
         assert "end" in seg
         assert "text" in seg
+        assert seg["speaker"] in ["speaker_A", "speaker_B", "speaker_C"]
 
 
 def test_content():

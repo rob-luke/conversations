@@ -61,8 +61,10 @@ def process(
     result["segments"] = result["utterances"]
 
     # For each segment, convert the start and end times to seconds from milliseconds
+    # and prepend speaker to the speaker name
     for seg in result["segments"]:
         seg["start"] = seg["start"] / 1000
         seg["end"] = seg["end"] / 1000
+        seg["speaker"] = f"speaker_{seg['speaker']}"
 
     return result
