@@ -46,6 +46,8 @@ def generate(
 
     if speaker_mapping is not None:
         transcript = _map_speaker_names(transcript, speaker_mapping)
+    else:
+        speaker_mapping = {}
 
     doc = dominate.document(title="Conversation")
 
@@ -67,7 +69,7 @@ def generate(
                 for seg in transcript["segments"]:
                     start = seg["start"]
                     stop = seg["end"]
-                    speaker = _get_segement_speaker(seg)
+                    speaker = _get_segement_speaker(seg, speaker_mapping)
 
                     with dominate.tags.p(cls="mr-2 m-1 flex"):
                         if diarisation is not None:

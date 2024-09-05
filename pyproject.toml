@@ -59,6 +59,7 @@ dependencies = [
   "pytest-cov",
   "python-semantic-release==7.33.3",
   "openai-whisper",
+  "assemblyai",
 ]
 
 [tool.hatch.envs.default.scripts]
