@@ -18,7 +18,7 @@ the complex world of human interaction.
 
 ## Documentation
 
-Comprehensive documentation, including overview, api, and examples can be found [here](https://rob-luke.github.io/conversations/).
+Comprehensive documentation, including overview, API, and examples, can be found [here](https://rob-luke.github.io/conversations/).
 
 ## Installation
 
