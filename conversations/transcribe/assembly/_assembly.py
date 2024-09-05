@@ -65,6 +65,6 @@ def process(
     for seg in result["segments"]:
         seg["start"] = seg["start"] / 1000
         seg["end"] = seg["end"] / 1000
-        seg["speaker"] = f"speaker_{seg['speaker']}"
+        seg["speaker"] = f"Speaker_{seg['speaker']}"
 
     return result
