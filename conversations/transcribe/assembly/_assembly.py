@@ -5,7 +5,6 @@ import os
 import assemblyai as aai  # type: ignore
 
 # Load environmental variable for API key
-print(f"{os.getenv('ASSEMBLYAI_API_KEY')}")
 aai.settings.api_key = f"{os.getenv('ASSEMBLYAI_API_KEY')}"
 
 
@@ -31,7 +30,6 @@ def process(
     transcript : Dict[str, str]
         Dictionary containing the audio transcript in whisper format.
     """
-
     allowed_model_names = ["nano", "best"]
     if model_name.lower() not in allowed_model_names:
         raise ValueError(

@@ -184,7 +184,6 @@ def conversation():
 
 
 def test_summarise_new_summary(conversation):
-    conversation.diarise()
     conversation.transcribe()
     summary = conversation.summarise(force=True, print_summary=False)
     assert isinstance(summary, str)
@@ -192,7 +191,6 @@ def test_summarise_new_summary(conversation):
 
 
 def test_summarise_existing_summary(conversation):
-    conversation.diarise()
     conversation.transcribe()
     conversation._summary_automated = "Test summary"
     summary = conversation.summarise(force=False, print_summary=False)
@@ -200,7 +198,6 @@ def test_summarise_existing_summary(conversation):
 
 
 def test_summarise_force_new_summary(conversation):
-    conversation.diarise()
     conversation.transcribe()
     conversation._summary_automated = "Test summary"
     summary = conversation.summarise(force=True, print_summary=False)
