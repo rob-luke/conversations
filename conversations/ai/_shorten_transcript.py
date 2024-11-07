@@ -26,7 +26,7 @@ def _shorten_transcript(
         The shortened transcript.
     """
     num_tokens = _num_tokens_from_messages(
-        _content_to_message(transcript), model="gpt-4-1106-preview"
+        _content_to_message(transcript), model="gpt-4o"
     )
     print(
         f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
@@ -42,7 +42,7 @@ def _shorten_transcript(
         print(f"Summarizing chunk of {len(chunk)} characters...")
         summarized_chunk = _summarise_chunk(
             chunk,
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             temperature=0.0,
             iterations=shorten_iterations,
         )
@@ -50,7 +50,7 @@ def _shorten_transcript(
 
     shortened_transcript = "\n\n".join(summarized_chunks)  # type: ignore
     num_tokens_shortened = _num_tokens_from_messages(
-        _content_to_message(shortened_transcript), model="gpt-4-1106-preview"
+        _content_to_message(shortened_transcript), model="gpt-4o"
     )
     print(f"The shortened transcript has {num_tokens_shortened} tokens.")
 
@@ -78,7 +78,7 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[
     """
     if (
         _num_tokens_from_messages(
-            _content_to_message(transcript), model="gpt-4-1106-preview"
+            _content_to_message(transcript), model="gpt-4o"
         )
         <= chunk_token_limit
     ):

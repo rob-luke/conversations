@@ -56,6 +56,9 @@ def _num_tokens_from_messages(messages, model="gpt-4-1106-preview"):
     elif model == "gpt-4-0314":
         tokens_per_message = 3
         tokens_per_name = 1
+    elif model == "gpt-4o":
+        tokens_per_message = 3
+        tokens_per_name = 1
     else:
         raise NotImplementedError(
             f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens."""
@@ -232,7 +235,7 @@ def summarise(
     ]
 
     response = client.chat.completions.create(
-        model="gpt-4-1106-preview", temperature=0.3, messages=messages  # type: ignore
+        model="gpt-4o", temperature=0.3, messages=messages  # type: ignore
     )
     return str(response.choices[0].message.content)
 
@@ -277,6 +280,6 @@ def query(
     ]
 
     response = client.chat.completions.create(
-        model="gpt-4-1106-preview", temperature=0.3, messages=messages  # type: ignore
+        model="gpt-4o", temperature=0.3, messages=messages  # type: ignore
     )
     return response.choices[0].message.content
