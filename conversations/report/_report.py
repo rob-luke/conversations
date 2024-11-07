@@ -54,7 +54,8 @@ def generate(
     with doc.head:
         dominate.tags.script(src="https://cdn.tailwindcss.com")
         # Add custom styles for sticky audio controls
-        dominate.tags.style("""
+        dominate.tags.style(
+            """
             .audio-container {
                 position: sticky;
                 top: 0;
@@ -62,7 +63,8 @@ def generate(
                 z-index: 100;
                 padding: 1rem 0;
             }
-        """)
+        """
+        )
 
     with doc:
         with dominate.tags.div(cls="ml-12 mr-12 mt-6"):

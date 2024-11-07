@@ -77,9 +77,7 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[
         The list of chunks.
     """
     if (
-        _num_tokens_from_messages(
-            _content_to_message(transcript), model="gpt-4o"
-        )
+        _num_tokens_from_messages(_content_to_message(transcript), model="gpt-4o")
         <= chunk_token_limit
     ):
         print("Transcript is short enough, returning as is...")
