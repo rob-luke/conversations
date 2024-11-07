@@ -326,7 +326,7 @@ class Conversation:
         return answer
 
     def shortened_transcript(
-        self, chunk_num_tokens: int = 7372, shorten_iterations: int = 2
+        self, chunk_num_tokens: int = 128000, shorten_iterations: int = 2
     ) -> str:
         """
         Get the shortened transcript of the conversation.
