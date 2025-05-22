@@ -10,7 +10,7 @@ def test_summarise_uses_settings_model(mock_chat):
     mock_chat.completions.create.assert_called_once()
     # Check the model argument in the call_args
     _, kwargs = mock_chat.completions.create.call_args
-    assert kwargs["model"] == settings.open_ai_text_model
+    assert kwargs["model"] == settings.openai_text_model
 
 
 @patch.object(OpenAI, "chat")
@@ -19,4 +19,4 @@ def test_query_uses_settings_model(mock_chat):
     mock_chat.completions.create.assert_called_once()
     # Check the model argument in the call_args
     _, kwargs = mock_chat.completions.create.call_args
-    assert kwargs["model"] == settings.open_ai_text_model
+    assert kwargs["model"] == settings.openai_text_model

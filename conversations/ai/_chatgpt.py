@@ -236,7 +236,7 @@ def summarise(
     ]
 
     response = client.chat.completions.create(
-        model=settings.open_ai_text_model, temperature=0.3, messages=messages  # type: ignore
+        model=settings.openai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return str(response.choices[0].message.content)
 
@@ -281,6 +281,6 @@ def query(
     ]
 
     response = client.chat.completions.create(
-        model=settings.open_ai_text_model, temperature=0.3, messages=messages  # type: ignore
+        model=settings.openai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return response.choices[0].message.content
