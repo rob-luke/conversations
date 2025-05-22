@@ -3,6 +3,7 @@
 from typing import List, Optional
 import tiktoken
 from openai import OpenAI
+from conversations.config import settings
 
 client = OpenAI()
 
@@ -56,7 +57,7 @@ def _num_tokens_from_messages(messages, model="gpt-4-1106-preview"):
     elif model == "gpt-4-0314":
         tokens_per_message = 3
         tokens_per_name = 1
-    elif model == "gpt-4o":
+    elif model == "gpt-4o" or model == "gpt-4.1-mini":
         tokens_per_message = 3
         tokens_per_name = 1
     else:
@@ -235,7 +236,7 @@ def summarise(
     ]
 
     response = client.chat.completions.create(
-        model="gpt-4o", temperature=0.3, messages=messages  # type: ignore
+        model=settings.open_ai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return str(response.choices[0].message.content)
 
@@ -280,6 +281,6 @@ def query(
     ]
 
     response = client.chat.completions.create(
-        model="gpt-4o", temperature=0.3, messages=messages  # type: ignore
+        model=settings.open_ai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return response.choices[0].message.content

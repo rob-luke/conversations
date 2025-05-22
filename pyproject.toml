@@ -30,6 +30,8 @@ dependencies = [
   "openai>=1.2.0",
   "pooch",
   "openai-whisper",
+  "pydantic>=2.0.0",
+  "pydantic-settings>=2.0.0",
 ]
 dynamic = ["version"]
 
@@ -60,6 +62,8 @@ dependencies = [
   "python-semantic-release==7.33.3",
   "openai-whisper",
   "assemblyai",
+  "pydantic>=2.0.0",
+  "pydantic-settings>=2.0.0",
 ]
 
 [tool.hatch.envs.default.scripts]
