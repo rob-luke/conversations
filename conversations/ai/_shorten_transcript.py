@@ -2,12 +2,13 @@
 from typing import List, Optional
 from ._chatgpt import _num_tokens_from_messages, _content_to_message
 from openai import OpenAI
+from conversations.config import settings
 
 client = OpenAI()
 
 
 def _shorten_transcript(
-    transcript: str, chunk_num_tokens: int = 128000, shorten_iterations: int = 2
+    transcript: str, max_prompt_tokens: int = settings.max_prompt_tokens, shorten_iterations: int = 2
 ) -> str:
     """Shorten a transcript using GPT-4.
 
@@ -15,8 +16,8 @@ def _shorten_transcript(
     ----------
     transcript : str
         The transcript to shorten.
-    chunk_num_tokens : int, default=128000
-        The number of tokens to use for each chunk.
+    max_prompt_tokens : int, default=settings.max_prompt_tokens
+        The maximum number of tokens for text chunks and the target for the final transcript.
     shorten_iterations : int, default=2
         The number of iterations to use for shortening each chunk.
 
@@ -29,13 +30,13 @@ def _shorten_transcript(
         _content_to_message(transcript), model="gpt-4o"
     )
     print(
-        f"The transcript has {num_tokens} tokens. The limit is {chunk_num_tokens} tokens."
+        f"The transcript has {num_tokens} tokens. The limit is {max_prompt_tokens} tokens."
     )
-    if num_tokens <= chunk_num_tokens:
+    if num_tokens <= max_prompt_tokens:
         print("Transcript is short enough, returning as is...")
         return transcript
 
-    chunks = _chunk_transcript(transcript, chunk_num_tokens)
+    chunks = _chunk_transcript(transcript, max_prompt_tokens)
 
     summarized_chunks = []
     for chunk in chunks:
@@ -54,22 +55,22 @@ def _shorten_transcript(
     )
     print(f"The shortened transcript has {num_tokens_shortened} tokens.")
 
-    if num_tokens_shortened > chunk_num_tokens:
+    if num_tokens_shortened > max_prompt_tokens:
         print("Shortened transcript is still too long, reducing chunk size...")
-        return _shorten_transcript(transcript, chunk_num_tokens=chunk_num_tokens)
+        return _shorten_transcript(transcript, max_prompt_tokens=max_prompt_tokens)
 
     return shortened_transcript
 
 
-def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[str]:
+def _chunk_transcript(transcript: str, max_prompt_tokens: int = settings.max_prompt_tokens) -> List[str]:
     """Split a transcript into chunks of a given token limit.
 
     Parameters
     ----------
     transcript : str
         The transcript to split.
-    chunk_token_limit : int, default=128000
-        The number of tokens to use for each chunk.
+    max_prompt_tokens : int, default=settings.max_prompt_tokens
+        The maximum number of tokens allowed for a single chunk of text.
 
     Returns
     -------
@@ -78,7 +79,7 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[
     """
     if (
         _num_tokens_from_messages(_content_to_message(transcript), model="gpt-4o")
-        <= chunk_token_limit
+        <= max_prompt_tokens
     ):
         print("Transcript is short enough, returning as is...")
         return [transcript]
@@ -88,8 +89,8 @@ def _chunk_transcript(transcript: str, chunk_token_limit: int = 128000) -> List[
 
     # Split the transcript into two halves
     half = len(transcript) // 2
-    transcript_chunks.extend(_chunk_transcript(transcript[:half], chunk_token_limit))
-    transcript_chunks.extend(_chunk_transcript(transcript[half:], chunk_token_limit))
+    transcript_chunks.extend(_chunk_transcript(transcript[:half], max_prompt_tokens))
+    transcript_chunks.extend(_chunk_transcript(transcript[half:], max_prompt_tokens))
 
     return transcript_chunks
 

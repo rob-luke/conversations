@@ -7,6 +7,8 @@ class OpenAISettings(BaseSettings):
     """Settings for OpenAI API, primarily the text model."""
 
     openai_text_model: str = "gpt-4.1-mini"
+    max_prompt_tokens: int = 900000
+    """Max tokens for AI processing chunks and final transcript target."""
 
 
 settings = OpenAISettings()
