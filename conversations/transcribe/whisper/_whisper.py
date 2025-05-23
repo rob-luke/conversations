@@ -4,6 +4,8 @@ from typing import Dict
 from openai import OpenAI
 import whisper
 
+from conversations.config import settings
+
 client = OpenAI()
 
 
@@ -62,11 +64,11 @@ def _cloud_whisper(
     """
     if prompt is None:
         result = client.audio.transcriptions.create(
-            file=audio_file, model="whisper-1", response_format="verbose_json"
+            file=audio_file, model=settings.openai_speech_model, response_format="verbose_json"
         )
     else:
         result = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=settings.openai_speech_model,
             file=audio_file,
             response_format="verbose_json",
             prompt=prompt,
