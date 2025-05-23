@@ -64,7 +64,9 @@ def _cloud_whisper(
     """
     if prompt is None:
         result = client.audio.transcriptions.create(
-            file=audio_file, model=settings.openai_speech_model, response_format="verbose_json"
+            file=audio_file,
+            model=settings.openai_speech_model,
+            response_format="verbose_json",
         )
     else:
         result = client.audio.transcriptions.create(
