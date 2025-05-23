@@ -8,7 +8,9 @@ client = OpenAI()
 
 
 def _shorten_transcript(
-    transcript: str, max_prompt_tokens: int = settings.max_prompt_tokens, shorten_iterations: int = 2
+    transcript: str,
+    max_prompt_tokens: int = settings.max_prompt_tokens,
+    shorten_iterations: int = 2,
 ) -> str:
     """Shorten a transcript using GPT-4.
 
@@ -62,7 +64,9 @@ def _shorten_transcript(
     return shortened_transcript
 
 
-def _chunk_transcript(transcript: str, max_prompt_tokens: int = settings.max_prompt_tokens) -> List[str]:
+def _chunk_transcript(
+    transcript: str, max_prompt_tokens: int = settings.max_prompt_tokens
+) -> List[str]:
     """Split a transcript into chunks of a given token limit.
 
     Parameters
