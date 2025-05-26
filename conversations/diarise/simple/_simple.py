@@ -10,8 +10,8 @@ def process(audio_file: Path, num_speakers: int = 2) -> List[Dict[str, Any]]:
     ----------
     audio_file : Path
         Path to the audio file.
-    num_speakers : int
-        The number of speakers in the conversation.
+    num_speakers : int, optional
+        The number of speakers in the conversation, by default 2.
 
     Returns
     -------

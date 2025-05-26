@@ -19,9 +19,9 @@ def process(
     ----------
     audio_file : Path
         Path to the audio file.
-    model_name : str, optionalππ
+    model_name : str, optional
         Name of the assembly model to use. To use the cloud service
-        provided by Assembly, use "nano" or "best".
+        provided by Assembly, use "nano" or "best", by default "nano".
     language : str, optional
         Language to use for the transcription, by default "en".
 
