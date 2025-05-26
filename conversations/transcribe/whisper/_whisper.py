@@ -24,7 +24,7 @@ def process(
     model_name : str, optional
         Name of the whisper model to use. To use the cloud service
         provided by OpenAI, use "openai.en", by default "base.en".
-    prompt : str, optional
+    prompt : str | None, optional
         Prompt to use for the transcription, by default None.
     language : str, optional
         Language to use for the transcription, by default "en".
@@ -52,7 +52,7 @@ def _cloud_whisper(
     ----------
     audio_file : Path
         Path to the audio file.
-    prompt : str, optional
+    prompt : str | None, optional
         Prompt to use for the transcription, by default None.
     language : str, optional
         Language to use for the transcription, by default "en".
@@ -98,7 +98,7 @@ def _local_whisper(
         and "large.en", by default "base.en".
     device : str, optional
         The device on which to run the model, either "cpu" or "gpu", by default "cpu".
-    prompt : str, optional
+    prompt : str | None, optional
         Prompt to use for the transcription, by default None.
     language : str, optional
         Language to use for the transcription, by default "en".

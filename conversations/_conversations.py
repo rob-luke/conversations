@@ -38,18 +38,25 @@ class Conversation:
         ----------
         recording : pathlib.Path
             Path to the conversation recording.
-        num_speakers : int
-            The number of speakers in the conversation, defaulting to 0 if unknown.
-        reload : bool
+        num_speakers : int, optional
+            The number of speakers in the conversation, by default 0 (unknown).
+        reload : bool, optional
             If True, try to load an existing saved conversation with the default filename.
-            If False, create a new Conversation instance.
-        speaker_mapping : Optional[Dict[str, str]]
-            A dictionary mapping speaker IDs to speaker names.
-
-        Returns
-        -------
-        conversation : Conversation
-            Instance of Conversation.
+            If False, create a new Conversation instance, by default True.
+        speaker_mapping : Optional[Dict[str, str]], optional
+            A dictionary mapping speaker IDs to speaker names, by default None.
+        meeting_datetime : Optional[datetime], optional
+            The date and time of the meeting, by default None (extracted from file metadata).
+        attendees : Optional[List[str]], optional
+            A list of attendee names, by default None.
+        transcription : Optional[Dict[str, str]], optional
+            A dictionary containing the transcription, by default None.
+        transcription_shortened : Optional[str], optional
+            A shortened version of the transcription, by default None.
+        summary : Optional[str], optional
+            A user-provided summary of the conversation, by default None.
+        summary_automated : Optional[str], optional
+            An AI-generated summary of the conversation, by default None.
         """
         self._recording = recording
         self._num_speakers = num_speakers
@@ -131,10 +138,6 @@ class Conversation:
         language : str, optional
             The language of the conversation, defaults to "en".
 
-        Returns
-        -------
-        None
-
         Raises
         ------
         RuntimeError
@@ -194,7 +197,16 @@ class Conversation:
             )
 
     def diarise(self, method: str = "simple"):
-        """Diarise a conversation."""
+        """Diarise a conversation.
+
+        If the conversation has already been diarised, this method will print a message
+        and skip the diarisation process.
+
+        Parameters
+        ----------
+        method : str, optional
+            The diarisation method to use, by default "simple".
+        """
         from .diarise import simple
 
         if self._diarisation is not None:
@@ -206,7 +218,19 @@ class Conversation:
         )
 
     def report(self, audio_file=None):
-        """Generate a report of a conversation."""
+        """Generate a report of a conversation.
+
+        Parameters
+        ----------
+        audio_file : pathlib.Path, optional
+            Path to the audio file to include in the report.
+            If None, the recording path provided during initialisation is used.
+
+        Returns
+        -------
+        str
+            The HTML report as a string.
+        """
         from .report import generate
 
         if audio_file is None:
@@ -258,12 +282,12 @@ class Conversation:
 
         Parameters
         ----------
-        force : bool
-            If True, generate a new summary even if one already exists.
-        print_summary : bool
-            If True, print the summary to the console.
-        system_prompt : str or None
-            The system prompt to use when generating the summary.
+        force : bool, optional
+            If True, generate a new summary even if one already exists, by default False.
+        print_summary : bool, optional
+            If True, print the summary to the console, by default True.
+        system_prompt : str or None, optional
+            The system prompt to use when generating the summary, by default None.
         summary_prompt : str or None
             The summary prompt to use when generating the summary.
         append_prompt : str or None
@@ -304,10 +328,10 @@ class Conversation:
         ----------
         query : str
             The query to ask the conversation.
-        print_summary : bool
-            If True, print the summary to the console.
-        system_prompt : str or None
-            The system prompt to use when generating the summary.
+        print_summary : bool, optional
+            If True, print the summary to the console, by default True.
+        system_prompt : str or None, optional
+            The system prompt to use when generating the summary, by default None.
         append_prompt : str or None
             The append prompt to use when generating the summary.
 
@@ -336,11 +360,10 @@ class Conversation:
 
         Parameters
         ----------
-        chunk_num_tokens : int
-            The number of tokens to use for each chunk.
-            The default is 7372, which is 90% of the 8k model limit.
-        shorten_iterations : int
-            The number of iterations to use when shortening the transcript.
+        chunk_num_tokens : int, optional
+            The number of tokens to use for each chunk, by default 128000.
+        shorten_iterations : int, optional
+            The number of iterations to use when shortening the transcript, by default 2.
 
         Returns
         -------

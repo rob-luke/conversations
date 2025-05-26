@@ -27,14 +27,14 @@ def generate(
     ----------
     transcript : dict
         Transcript from transcribe module.
-    diarisation : dict
-        Speaker diarisation from from diarisation module.
-    audio_file : PosixPath | None
+    diarisation : Optional[List[Dict[str, Any]]], optional
+        Speaker diarisation from diarisation module, by default None.
+    audio_file : Optional[Path], optional
         Path to audio file. If provided, audio will be embedded in the
-        report and timestamps will link to audio times.
-    speaker_mapping : dict
+        report and timestamps will link to audio times, by default None.
+    speaker_mapping : Optional[dict], optional
         Mapping of old speaker names to new speaker names.
-        For example, {"0": "Alice", "1": "Bob"}.
+        For example, {"0": "Alice", "1": "Bob"}, by default None.
 
     Returns
     -------

@@ -22,7 +22,10 @@ def _num_tokens_from_messages(messages, model="gpt-4-1106-preview"):
     messages : List[dict]
         A list of message dictionaries.
     model : str, optional
-        The model to use for tokenization, defaults to "gpt-4-1106-preview".
+        The model to use for tokenization, by default "gpt-4-1106-preview".
+        Note that due to model updates, the function may use "gpt-3.5-turbo-0301" or "gpt-4-0314"
+        as fallbacks for token calculation if "gpt-3.5-turbo" or "gpt-4" / "gpt-4-1106-preview"
+        are specified, respectively.
 
     Returns
     -------
@@ -209,12 +212,12 @@ def summarise(
     ----------
     transcript : str
         The meeting transcript.
-    system_prompt : Optional[str], default=None
-        The system prompt text. If not provided, it will be generated using the internal function _system_prompt_summariser().
-    summary_prompt : Optional[str], default=None
-        The summary prompt text. If not provided, it will be generated using the internal function _user_prompt_summariser(transcript).
-    append_prompt : Optional[str]
-        An additional prompt to append to the summary_prompt.
+    system_prompt : Optional[str], optional
+        The system prompt text. If None, `_system_prompt_summariser()` is used, by default None.
+    summary_prompt : Optional[str], optional
+        The summary prompt text. If None, `_user_prompt_summariser(transcript)` is used, by default None.
+    append_prompt : Optional[str], optional
+        An additional prompt to append to the summary_prompt, by default "Format your response as text and do not use markdown.".
 
     Returns
     -------
@@ -257,15 +260,15 @@ def query(
         The meeting transcript.
     query : str
         What you would like to know from the conversation. This will be used to generate the query prompt.
-    system_prompt : Optional[str], default=None
-        The system prompt text. If not provided, it will be generated using the internal function _system_prompt_summariser().
-    append_prompt : Optional[str]
-        An additional prompt to append to the query_prompt.
+    system_prompt : Optional[str], optional
+        The system prompt text. If None, `_system_prompt_summariser()` is used, by default None.
+    append_prompt : Optional[str], optional
+        An additional prompt to append to the query_prompt, by default "Format your response as text and do not use markdown.".
 
     Returns
     -------
-    answer : str
-        The generated response to the query.
+    Optional[str]
+        The generated response to the query, or None if an error occurs.
     """
     if system_prompt is None:
         system_prompt = _system_prompt_summariser()
