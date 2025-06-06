@@ -27,6 +27,12 @@ can be found [here](https://rob-luke.github.io/conversations/).
 pip install conversations
 ```
 
+Install the optional dependencies for local processing with:
+
+```console
+pip install conversations[local]
+```
+
 ## Usage
 
 ```python
