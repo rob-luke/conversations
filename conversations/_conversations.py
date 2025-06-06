@@ -195,11 +195,11 @@ class Conversation:
 
     def diarise(self, method: str = "simple"):
         """Diarise a conversation."""
-        from .diarise import simple
-
         if self._diarisation is not None:
-            print("The conversation has already been diarised. Skipping diarisaton.")
+            print("The conversation has already been diarised. Skipping diarisation.")
             return
+
+        from .diarise import simple
 
         self._diarisation = simple.process(
             audio_file=self._recording, num_speakers=self._num_speakers
