@@ -23,17 +23,21 @@ classifiers = [
 
 dependencies = [
   "dominate",
-  "toml",
-  "soundfile",
-  "simple-diarizer",
-  "speechbrain==0.5.13",
   "openai>=1.2.0",
   "pooch",
-  "openai-whisper",
+  "assemblyai",
   "pydantic>=2.0.0",
   "pydantic-settings>=2.0.0",
 ]
 dynamic = ["version"]
+
+[project.optional-dependencies]
+local = [
+  "openai-whisper",
+  "simple-diarizer",
+  "speechbrain==0.5.13",
+  "soundfile",
+]
 
 [project.urls]
 Documentation = "https://github.com/rob-luke/conversations#readme"
