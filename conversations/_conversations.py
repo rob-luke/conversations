@@ -196,7 +196,7 @@ class Conversation:
     def diarise(self, method: str = "simple"):
         """Diarise a conversation."""
         if self._diarisation is not None:
-            print("The conversation has already been diarised. Skipping diarisaton.")
+            print("The conversation has already been diarised. Skipping diarisation.")
             return
 
         from .diarise import simple
