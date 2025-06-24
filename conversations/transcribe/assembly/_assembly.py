@@ -45,14 +45,24 @@ def process(
     if model_name == "universal":
         speech_model = aai.SpeechModel.universal
 
-    config = aai.TranscriptionConfig(
-        speech_model=speech_model,
-        language_code=language,
-        word_boost=["robert", "venture"],
-        boost_param="default",
-        filter_profanity=False,
-        speaker_labels=True,
-    )
+    if model_name == "slam-1":
+        config = aai.TranscriptionConfig(
+            speech_model=speech_model,
+            language_code=language,
+            keyterms_prompt=["robert", "venture"],
+            filter_profanity=False,
+            speaker_labels=True,
+        )
+
+    else:
+        config = aai.TranscriptionConfig(
+            speech_model=speech_model,
+            language_code=language,
+            word_boost=["robert", "venture"],
+            boost_param="default",
+            filter_profanity=False,
+            speaker_labels=True,
+        )
 
     transcriber = aai.Transcriber(config=config)
 
