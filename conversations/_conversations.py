@@ -124,7 +124,7 @@ class Conversation:
             Can be one of whisper or assembly.
         model : str, optional
             The model to be used for transcription, must be one of tiny, base, small, large,
-            medium, tiny.en, base.en, small.en, medium.en, and openai.en, best, nano.
+            medium, tiny.en, base.en, small.en, medium.en, and openai.en, best, slam-1, universal, nano.
             Defaults to "nano".
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
@@ -160,6 +160,8 @@ class Conversation:
             "openai.en",
             "nano",
             "best",
+            "slam-1",
+            "universal",
         ]
         if model not in available_models:
             raise ValueError(
