@@ -21,7 +21,7 @@ def process(
         Path to the audio file.
     model_name : str, optionalππ
         Name of the assembly model to use. To use the cloud service
-        provided by Assembly, use "nano" or "best".
+        provided by Assembly, use "nano", "slam-1", "universal", or "best".
     language : str, optional
         Language to use for the transcription, by default "en".
 
@@ -30,7 +30,7 @@ def process(
     transcript : Dict[str, str]
         Dictionary containing the audio transcript in whisper format.
     """
-    allowed_model_names = ["nano", "best"]
+    allowed_model_names = ["nano", "best", "slam-1", "universal"]
     if model_name.lower() not in allowed_model_names:
         raise ValueError(
             f"Model name must be one of {allowed_model_names}. Received {model_name}."
@@ -38,8 +38,12 @@ def process(
 
     if model_name == "nano":
         speech_model = aai.SpeechModel.nano
-    elif model_name == "best":
+    if model_name == "best":
         speech_model = aai.SpeechModel.best
+    if model_name == "slam-1":
+        speech_model = aai.SpeechModel.slam_1
+    if model_name == "universal":
+        speech_model = aai.SpeechModel.universal
 
     config = aai.TranscriptionConfig(
         speech_model=speech_model,
