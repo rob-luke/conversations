@@ -1,6 +1,6 @@
 # Developer Guidelines
 
-This repository uses a number of automated checks and tools. 
+This repository uses a number of automated checks and tools.
 Follow these guidelines when contributing.
 
 ## Set Up
