@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Optional
 import os
 
 import assemblyai as aai  # type: ignore
@@ -12,18 +12,22 @@ def process(
     audio_file: Path,
     model_name: str = "nano",
     language: str = "en",
+    custom_terms: Optional[List[str]] = None,
 ) -> Dict[str, str]:
-    """Transcribe audio using Whisper.
+    """Transcribe audio using AssemblyAI.
 
     Parameters
     ----------
     audio_file : Path
         Path to the audio file.
-    model_name : str, optionalππ
+    model_name : str, optional
         Name of the assembly model to use. To use the cloud service
         provided by Assembly, use "nano", "slam-1", "universal", or "best".
     language : str, optional
         Language to use for the transcription, by default "en".
+    custom_terms : list[str], optional
+        Custom terms to help the speech model with specific vocabulary.
+        Only used when ``model_name`` is ``"slam-1"``.
 
     Returns
     -------
@@ -49,7 +53,7 @@ def process(
         config = aai.TranscriptionConfig(
             speech_model=speech_model,
             language_code=language,
-            keyterms_prompt=["robert", "venture"],
+            keyterms_prompt=custom_terms,
             filter_profanity=False,
             speaker_labels=True,
         )
