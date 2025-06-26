@@ -47,7 +47,7 @@ speaker_mapping={"0": "Alice", "1": "Bob", "2": "Sam"}
 conversation = Conversation(recording=audio_file, speaker_mapping=speaker_mapping)
 
 # Process the conversation
-conversation.transcribe()
+conversation.transcribe(custom_terms=["Alice", "Bob"])
 conversation.diarise()
 conversation.save()
 

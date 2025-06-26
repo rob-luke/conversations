@@ -113,6 +113,7 @@ class Conversation:
         model: str = "nano",
         prompt: str | None = " - How are you? - I'm fine, thank you.",
         language: str = "en",
+        custom_terms: Optional[List[str]] = None,
     ):
         """
         Transcribe a conversation using the specified method and model.
@@ -130,6 +131,9 @@ class Conversation:
             An optional prompt to be used for transcription, defaults to None.
         language : str, optional
             The language of the conversation, defaults to "en".
+        custom_terms : list[str], optional
+            Custom terms passed to the transcription engine. Currently
+            only supported when using the AssemblyAI ``"slam-1"`` model.
 
         Returns
         -------
@@ -181,7 +185,10 @@ class Conversation:
             from .transcribe import assembly
 
             self._transcription = assembly.process(
-                audio_file=self._recording, model_name=model, language=language
+                audio_file=self._recording,
+                model_name=model,
+                language=language,
+                custom_terms=custom_terms,
             )
 
             # by default, we use assembly to diarise the conversation too
