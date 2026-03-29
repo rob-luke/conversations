@@ -122,11 +122,11 @@ class Conversation:
         ----------
         method : str, optional
             The transcription method to use, defaults to "assembly".
-            Can be one of whisper or assembly.
+            Can be one of whisper, assembly, or deepgram.
         model : str, optional
             The model to be used for transcription, must be one of tiny, base, small, large,
-            medium, tiny.en, base.en, small.en, medium.en, and openai.en, best, slam-1, universal, nano.
-            Defaults to "nano".
+            medium, tiny.en, base.en, small.en, medium.en, openai.en, best, slam-1, universal,
+            nano, nova-3, nova-2, nova, or enhanced. Defaults to "nano".
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
         language : str, optional
@@ -166,6 +166,10 @@ class Conversation:
             "best",
             "slam-1",
             "universal",
+            "nova-3",
+            "nova-2",
+            "nova",
+            "enhanced",
         ]
         if model not in available_models:
             raise ValueError(
@@ -195,6 +199,22 @@ class Conversation:
             self._diarisation = [
                 {
                     "note": "diairisation performed by assembly and transcript contains speaker labels"
+                }
+            ]
+        elif method == "deepgram":
+            from .transcribe import deepgram
+
+            self._transcription = deepgram.process(
+                audio_file=self._recording,
+                model_name=model,
+                language=language,
+                custom_terms=custom_terms,
+            )
+
+            # by default, we use deepgram to diarise the conversation too
+            self._diarisation = [
+                {
+                    "note": "diarisation performed by deepgram and transcript contains speaker labels"
                 }
             ]
         else:
