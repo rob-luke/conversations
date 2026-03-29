@@ -9,6 +9,15 @@ import pytest
 import pickle
 from datetime import datetime, timezone, timedelta
 
+requires_assemblyai = pytest.mark.skipif(
+    not os.getenv("ASSEMBLYAI_API_KEY"),
+    reason="ASSEMBLYAI_API_KEY not set",
+)
+requires_openai = pytest.mark.skipif(
+    not os.getenv("OPENAI_API_KEY"),
+    reason="OPENAI_API_KEY not set",
+)
+
 
 audio_file = Path(
     pooch.retrieve(
@@ -23,6 +32,7 @@ def test_conv_type():
     assert isinstance(conv, Conversation)
 
 
+@requires_assemblyai
 def test_conv_report():
     conv = Conversation(recording=audio_file)
     conv.transcribe()
@@ -30,6 +40,7 @@ def test_conv_report():
     assert isinstance(html_report, dominate.document)
 
 
+@requires_assemblyai
 def test_save_and_load():
     # Create a temporary directory to store the conversation file
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -183,6 +194,8 @@ def conversation():
     return Conversation(recording=audio_file, reload=True)
 
 
+@requires_assemblyai
+@requires_openai
 def test_summarise_new_summary(conversation):
     conversation.transcribe()
     summary = conversation.summarise(force=True, print_summary=False)
@@ -190,6 +203,7 @@ def test_summarise_new_summary(conversation):
     assert len(summary) > 0
 
 
+@requires_assemblyai
 def test_summarise_existing_summary(conversation):
     conversation.transcribe()
     conversation._summary_automated = "Test summary"
@@ -197,6 +211,8 @@ def test_summarise_existing_summary(conversation):
     assert summary == "Test summary"
 
 
+@requires_assemblyai
+@requires_openai
 def test_summarise_force_new_summary(conversation):
     conversation.transcribe()
     conversation._summary_automated = "Test summary"

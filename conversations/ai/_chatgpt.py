@@ -5,7 +5,14 @@ import tiktoken
 from openai import OpenAI
 from conversations.config import settings
 
-client = OpenAI()
+client = None
+
+
+def _get_client():
+    global client
+    if client is None:
+        client = OpenAI()
+    return client
 
 
 class ChunkTooLongError(Exception):
@@ -235,7 +242,7 @@ def summarise(
         {"role": "user", "content": summary_prompt},
     ]
 
-    response = client.chat.completions.create(
+    response = _get_client().chat.completions.create(
         model=settings.openai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return str(response.choices[0].message.content)
@@ -280,7 +287,7 @@ def query(
         {"role": "user", "content": query_prompt},
     ]
 
-    response = client.chat.completions.create(
+    response = _get_client().chat.completions.create(
         model=settings.openai_text_model, temperature=0.3, messages=messages  # type: ignore
     )
     return response.choices[0].message.content

@@ -1,11 +1,19 @@
+import os
+
+import pytest
+
+if not os.getenv("ASSEMBLYAI_API_KEY"):
+    pytest.skip(
+        "ASSEMBLYAI_API_KEY not set, skipping report tests",
+        allow_module_level=True,
+    )
+
 from conversations import report
 from conversations.transcribe import assembly
-from conversations.diarise import simple
 from pathlib import Path
 from typing import Dict
 import pooch
 import dominate
-
 
 audio_file = pooch.retrieve(
     url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",
@@ -13,7 +21,6 @@ audio_file = pooch.retrieve(
 )
 
 transcript = assembly.process(audio_file=audio_file)
-# diarisation = simple.process(audio_file=audio_file, num_speakers=3)
 diarisation = [
     {
         "note": "diairisation performed by assembly and transcript contains speaker labels"

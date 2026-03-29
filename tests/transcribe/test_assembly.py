@@ -1,8 +1,17 @@
+import os
+
+import pytest
+
+if not os.getenv("ASSEMBLYAI_API_KEY"):
+    pytest.skip(
+        "ASSEMBLYAI_API_KEY not set, skipping assembly tests",
+        allow_module_level=True,
+    )
+
 from conversations.transcribe import assembly
 from pathlib import Path
 from typing import Dict
 import pooch
-
 
 audio_file = pooch.retrieve(
     url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",
