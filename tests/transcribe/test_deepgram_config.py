@@ -3,7 +3,12 @@
 import pytest
 
 from conversations.transcribe.deepgram._deepgram import (
+    MAX_CUSTOM_TERMS,
+    MAX_KEYTERM_TOKENS,
+    _estimate_tokens,
+    _transcribe_with_term_backoff,
     build_options,
+    clean_custom_terms,
     speaker_label,
     to_whisper_format,
 )
@@ -121,3 +126,87 @@ def test_missing_api_key(monkeypatch, tmp_path):
     audio.write_bytes(b"")
     with pytest.raises(ValueError, match="DEEPGRAM_API_KEY"):
         deepgram.process(audio_file=audio)
+
+
+def test_clean_custom_terms_splits_and_dedupes():
+    """Separators split terms; blanks and case-insensitive duplicates go."""
+    raw = ["Deepgram, Seagraves", "  Nova  3 ", "deepgram", "", "Flux;TLM\nSTT"]
+    assert clean_custom_terms(raw) == [
+        "Deepgram",
+        "Seagraves",
+        "Nova 3",
+        "Flux",
+        "TLM",
+        "STT",
+    ]
+    assert clean_custom_terms(None) == []
+
+
+def test_clean_custom_terms_caps_count_and_tokens(caplog):
+    """Long vocabularies are trimmed in order to fit Deepgram's limits."""
+    many = [f"term{i}" for i in range(500)]
+    kept = clean_custom_terms(many)
+    assert kept == many[: len(kept)]
+    assert 0 < len(kept) <= MAX_CUSTOM_TERMS
+    assert "trimmed" in caplog.text
+
+    long_terms = ["x" * 300, "y" * 300, "z" * 300]
+    kept_long = clean_custom_terms(long_terms)
+    assert kept_long == long_terms[: len(kept_long)]
+    assert sum(_estimate_tokens(t) for t in kept_long) <= MAX_KEYTERM_TOKENS
+    assert len(kept_long) < len(long_terms)
+
+
+def test_options_custom_terms_only_whitespace():
+    """Vocabulary that cleans to nothing sends no keyterm parameter."""
+    opts = build_options("nova-3", custom_terms=[" ", ","])
+    assert "keyterm" not in opts
+
+
+class _FakeMedia:
+    """Fake ``listen.v1.media`` that rejects more than ``limit`` keyterms."""
+
+    def __init__(self, limit, message="Keyterm limit exceeded."):
+        self.limit = limit
+        self.message = message
+        self.calls = []
+
+    def transcribe_file(self, request, request_options=None, **options):
+        from deepgram.errors import BadRequestError
+
+        terms = options.get("keyterm", [])
+        self.calls.append(len(terms))
+        if len(terms) > self.limit:
+            raise BadRequestError(body={"err_msg": self.message})
+        return "ok"
+
+
+class _FakeClient:
+    def __init__(self, media):
+        self.listen = type("L", (), {"v1": type("V", (), {"media": media})()})()
+
+
+def test_backoff_halves_terms_until_accepted():
+    """Over-limit keyterms are halved and retried, not fatal."""
+    media = _FakeMedia(limit=10)
+    opts = build_options("nova-3", custom_terms=[f"t{i}" for i in range(40)])
+    assert _transcribe_with_term_backoff(_FakeClient(media), b"", opts) == "ok"
+    assert media.calls == [40, 20, 10]
+
+
+def test_backoff_drops_terms_entirely_as_last_resort():
+    """If no keyterms are accepted, transcription proceeds without them."""
+    media = _FakeMedia(limit=0)
+    opts = build_options("nova-3", custom_terms=["a", "b"])
+    assert _transcribe_with_term_backoff(_FakeClient(media), b"", opts) == "ok"
+    assert media.calls == [2, 1, 0]
+
+
+def test_backoff_reraises_other_bad_requests():
+    """Unrelated 400s are not swallowed."""
+    from deepgram.errors import BadRequestError
+
+    media = _FakeMedia(limit=0, message="Unsupported audio format.")
+    opts = build_options("nova-3", custom_terms=["a"])
+    with pytest.raises(BadRequestError):
+        _transcribe_with_term_backoff(_FakeClient(media), b"", opts)

@@ -72,3 +72,10 @@ def test_conversation_report_and_text():
     assert isinstance(conv.report(), dominate.document)
     text = conv.export_text()
     assert "private equity" in text.lower()
+
+
+def test_keyterms_at_limit():
+    """The most vocabulary the cleaner allows is accepted by Deepgram."""
+    names = [f"Kowalczyk{i} Nakamura{i} Oyelaran{i}" for i in range(200)]
+    result = deepgram.process(audio_file=audio_file, custom_terms=names)
+    assert len(result["segments"]) > 0
