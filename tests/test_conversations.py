@@ -9,7 +9,6 @@ import pytest
 import pickle
 from datetime import datetime, timezone, timedelta
 
-
 audio_file = Path(
     pooch.retrieve(
         url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",

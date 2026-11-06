@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import Dict
 import pooch
 
-
 audio_file = pooch.retrieve(
     url="https://project-test-data-public.s3.amazonaws.com/test_audio.m4a",
     known_hash="md5:77d8b60c54dffbb74d48c4a65cd59591",
@@ -26,3 +25,11 @@ def test_content():
     """Test that local and cloud processing return the same results."""
     cloud_result = assembly.process(audio_file=Path(audio_file))
     assert "million" in cloud_result["segments"][0]["text"]
+
+
+def test_legacy_slam_with_custom_terms():
+    """Test the legacy slam-1 alias with custom terms against the live API."""
+    result = assembly.process(
+        audio_file=Path(audio_file), model_name="slam-1", custom_terms=["million"]
+    )
+    assert "million" in result["segments"][0]["text"]

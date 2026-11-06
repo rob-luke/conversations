@@ -125,7 +125,9 @@ class Conversation:
             Can be one of whisper or assembly.
         model : str, optional
             The model to be used for transcription, must be one of tiny, base, small, large,
-            medium, tiny.en, base.en, small.en, medium.en, and openai.en, best, slam-1, universal, nano.
+            medium, tiny.en, base.en, small.en, medium.en, and openai.en for whisper, or
+            universal-3-5-pro, universal-3-pro, universal-2 for assembly. The legacy
+            assembly names best, slam-1, universal and nano are accepted as aliases.
             Defaults to "nano".
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
@@ -133,7 +135,8 @@ class Conversation:
             The language of the conversation, defaults to "en".
         custom_terms : list[str], optional
             Custom terms passed to the transcription engine. Currently
-            only supported when using the AssemblyAI ``"slam-1"`` model.
+            only supported with the AssemblyAI Universal-3 models (including
+            the legacy ``"slam-1"`` alias).
 
         Returns
         -------
@@ -166,6 +169,9 @@ class Conversation:
             "best",
             "slam-1",
             "universal",
+            "universal-3-5-pro",
+            "universal-3-pro",
+            "universal-2",
         ]
         if model not in available_models:
             raise ValueError(
