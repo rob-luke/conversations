@@ -110,7 +110,7 @@ class Conversation:
     def transcribe(
         self,
         method: str = "assembly",
-        model: str = "nano",
+        model: Optional[str] = None,
         prompt: str | None = " - How are you? - I'm fine, thank you.",
         language: str = "en",
         custom_terms: Optional[List[str]] = None,
@@ -122,21 +122,22 @@ class Conversation:
         ----------
         method : str, optional
             The transcription method to use, defaults to "assembly".
-            Can be one of whisper or assembly.
+            Can be one of whisper, assembly or deepgram.
         model : str, optional
             The model to be used for transcription, must be one of tiny, base, small, large,
             medium, tiny.en, base.en, small.en, medium.en, and openai.en for whisper, or
             universal-3-5-pro, universal-3-pro, universal-2 for assembly. The legacy
             assembly names best, slam-1, universal and nano are accepted as aliases.
-            Defaults to "nano".
+            For deepgram use nova-3, nova-3-medical or nova-2. Defaults to "nova-3"
+            for deepgram and "nano" otherwise.
         prompt : str, None, optional
             An optional prompt to be used for transcription, defaults to None.
         language : str, optional
             The language of the conversation, defaults to "en".
         custom_terms : list[str], optional
             Custom terms passed to the transcription engine. Currently
-            only supported with the AssemblyAI Universal-3 models (including
-            the legacy ``"slam-1"`` alias).
+            supported with the AssemblyAI Universal-3 models (including the
+            legacy ``"slam-1"`` alias) and all Deepgram models.
 
         Returns
         -------
@@ -153,6 +154,9 @@ class Conversation:
         """
         if self._transcription is not None:
             raise RuntimeError("The conversation has already been transcribed.")
+
+        if model is None:
+            model = "nova-3" if method == "deepgram" else "nano"
 
         available_models = [
             "tiny",
@@ -172,6 +176,9 @@ class Conversation:
             "universal-3-5-pro",
             "universal-3-pro",
             "universal-2",
+            "nova-3",
+            "nova-3-medical",
+            "nova-2",
         ]
         if model not in available_models:
             raise ValueError(
@@ -201,6 +208,22 @@ class Conversation:
             self._diarisation = [
                 {
                     "note": "diairisation performed by assembly and transcript contains speaker labels"
+                }
+            ]
+        elif method == "deepgram":
+            from .transcribe import deepgram
+
+            self._transcription = deepgram.process(
+                audio_file=self._recording,
+                model_name=model,
+                language=language,
+                custom_terms=custom_terms,
+            )
+
+            # Deepgram diarises during transcription, so segments carry speakers
+            self._diarisation = [
+                {
+                    "note": "diarisation performed by deepgram and transcript contains speaker labels"
                 }
             ]
         else:

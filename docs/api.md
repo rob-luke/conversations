@@ -40,6 +40,22 @@
       show_root_full_path: true
       heading_level: 4
 
+::: conversations.transcribe.assembly.process
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+
+::: conversations.transcribe.deepgram.process
+    handler: python
+    options:
+      show_root_heading: true
+      show_source: false
+      show_root_full_path: true
+      heading_level: 4
+
 ### Diarisation
 
 ::: conversations.diarise.simple.process
