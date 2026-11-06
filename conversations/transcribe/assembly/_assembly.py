@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 import os
 
 import assemblyai as aai  # type: ignore
@@ -91,7 +91,7 @@ def build_config(
         speech_models=speech_models,
         language_code=language,
         word_boost=["robert", "venture"],
-        boost_param="default",
+        boost_param=aai.WordBoost.default,
         filter_profanity=False,
         speaker_labels=True,
     )
@@ -102,7 +102,7 @@ def process(
     model_name: str = "nano",
     language: str = "en",
     custom_terms: Optional[List[str]] = None,
-) -> Dict[str, str]:
+) -> Dict[str, Any]:
     """Transcribe audio using AssemblyAI.
 
     Parameters
@@ -122,7 +122,7 @@ def process(
 
     Returns
     -------
-    transcript : Dict[str, str]
+    transcript : Dict[str, Any]
         Dictionary containing the audio transcript in whisper format.
     """
     config = build_config(
@@ -139,6 +139,8 @@ def process(
     # Convert to openai format
 
     result = transcript.json_response
+    if result is None:
+        raise RuntimeError("AssemblyAI returned an empty transcript response.")
 
     result["segments"] = result["utterances"]
 
