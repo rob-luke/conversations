@@ -133,3 +133,21 @@ print(summary)
 # Sam's tone: Inquisitive
 
 ```
+
+## Transcription providers
+
+`transcribe()` uses AssemblyAI by default. Choose a provider with `method`:
+
+| Method               | Models                                                        | API key env var      |
+|----------------------|---------------------------------------------------------------|----------------------|
+| `assembly` (default) | `universal-3-5-pro`, `universal-3-pro`, `universal-2`         | `ASSEMBLYAI_API_KEY` |
+| `deepgram`           | `nova-3` (default), `nova-3-medical`, `nova-2`                | `DEEPGRAM_API_KEY`   |
+| `whisper` (local)    | `tiny`, `base`, `small`, `medium`, `large` and `.en` variants | none                 |
+
+```python
+conversation.transcribe(method="deepgram", custom_terms=["Alice", "Bob"])
+```
+
+AssemblyAI and Deepgram diarise during transcription, so `diarise()` is skipped
+for them and speakers are labelled `Speaker_A`, `Speaker_B` and so on.
+Deepgram requests opt out of Deepgram's Model Improvement Program (`mip_opt_out`).
