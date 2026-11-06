@@ -26,3 +26,11 @@ def test_content():
     """Test that local and cloud processing return the same results."""
     cloud_result = assembly.process(audio_file=Path(audio_file))
     assert "million" in cloud_result["segments"][0]["text"]
+
+
+def test_legacy_slam_with_custom_terms():
+    """Test the legacy slam-1 alias with custom terms against the live API."""
+    result = assembly.process(
+        audio_file=Path(audio_file), model_name="slam-1", custom_terms=["million"]
+    )
+    assert "million" in result["segments"][0]["text"]
